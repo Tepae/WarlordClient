@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{60FDA07C-AC3F-4329-89A8-9BDF6F105EB6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>WarlordClient.My.MyApplication</StartupObject>
+    <RootNamespace>WarlordClient</RootNamespace>
+    <AssemblyName>WarlordClient</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>WarlordClient.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>WarlordClient.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\PlayerState.vb" />
+    <Compile Include="Debug\Console.Designer.vb">
+      <DependentUpon>Console.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Debug\Console.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debug\ConsoleManager.vb" />
+    <Compile Include="GameEngine\ActionPerformer.vb" />
+    <Compile Include="GameEngine\ButtonConfiguration.vb" />
+    <Compile Include="GameEngine\CardInstance.vb" />
+    <Compile Include="GameEngine\CardCollection.vb" />
+    <Compile Include="GameEngine\CardInstanceCreator\CardInstanceCreator.vb" />
+    <Compile Include="GameEngine\CardInstanceCreator\CardNameMapper.vb" />
+    <Compile Include="GameEngine\CardPlayer\CardPlayerFactory.vb" />
+    <Compile Include="GameEngine\CardPlayer\CharacterPlayer.vb" />
+    <Compile Include="GameEngine\Cards\Card\Card.vb" />
+    <Compile Include="GameEngine\Cards\Card\Character.vb" />
+    <Compile Include="GameEngine\Cards\Card\Action.vb" />
+    <Compile Include="GameEngine\Cards\Card\IMeleeStriker.vb" />
+    <Compile Include="GameEngine\Cards\Card\IRangedStriker.vb" />
+    <Compile Include="GameEngine\Cards\Card\PerformableAction.vb" />
+    <Compile Include="GameEngine\Cards\Sets\AS\Kether.vb" />
+    <Compile Include="GameEngine\CharacterMovement\CharacterPlacementDialogFactory.vb" />
+    <Compile Include="GameEngine\CharacterMovement\IInfoBoxTextGenerator.vb" />
+    <Compile Include="GameEngine\CharacterMovement\MovementInfoBoxTextGenerator.vb" />
+    <Compile Include="GameEngine\CharacterMovement\PlacementInfoBoxTextGenerator.vb" />
+    <Compile Include="GameEngine\CharacterMovement\PlayCardFromHandRankDeterminer.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Keridwen.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Meetattheinn.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\SandinYourEyes.vb" />
+    <Compile Include="GameEngine\CharacterMovement\CharacterMover.vb" />
+    <Compile Include="GameEngine\ClickFilter\RangeFilter.vb" />
+    <Compile Include="GameEngine\CostAndEffect\CostAndEffectAction.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Cost\DiscardCards.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Effect\MoveCharacterEffect.vb" />
+    <Compile Include="GameEngine\CostAndEffect\ICost.vb" />
+    <Compile Include="GameEngine\CostAndEffect\IEffect.vb" />
+    <Compile Include="GameEngine\DeadCharacterChecker.vb" />
+    <Compile Include="GameEngine\DiscardPile.vb" />
+    <Compile Include="GameEngine\EventNotifier\EventNotifier.vb" />
+    <Compile Include="GameEngine\EventNotifier\IListener.vb" />
+    <Compile Include="GameEngine\EventNotifier\ListenerEntry.vb" />
+    <Compile Include="GameEngine\CardPlayer\ICardPlayer.vb" />
+    <Compile Include="GameEngine\IllegalRankButtonConfiguration.vb" />
+    <Compile Include="GameEngine\IUserInterfaceManipulator.vb" />
+    <Compile Include="GameEngine\Order\PerformStrike.vb" />
+    <Compile Include="GameEngine\Order\PlayCard.vb" />
+    <Compile Include="GameEngine\Order\PlayCharacter.vb" />
+    <Compile Include="GameEngine\Strike\StrikePerformer.vb" />
+    <Compile Include="GameEngine\Strike\MeleeStrike.vb" />
+    <Compile Include="GameEngine\Strike\RangedStrike.vb" />
+    <Compile Include="GameEngine\Strike\Strike.vb" />
+    <Compile Include="GameEngine\Strike\StrikePerformerCreator.vb" />
+    <Compile Include="GameEngine\Strike\StrikeSet.vb" />
+    <Compile Include="GameEngine\Cards\Sets\DummyCharacter.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Artheon.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\BrineFiend.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Gueniveure.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Jigoral.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Rathe.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Throw_.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\Whispershot.vb" />
+    <Compile Include="GameEngine\Cards\Card\StartingRank.vb" />
+    <Compile Include="GameEngine\Cards\Card\StartingRankCharacterDescription.vb" />
+    <Compile Include="GameEngine\Cards\Card\Warlord.vb" />
+    <Compile Include="GameEngine\CharacterMovement\CharacterPlacementDialog.vb" />
+    <Compile Include="GameEngine\CharacterMovement\IllegalRankMovementRankDeterminer.vb" />
+    <Compile Include="GameEngine\CharacterMovement\IRanksAvalibleForMovementDeterminer.vb" />
+    <Compile Include="GameEngine\CharacterMovement\PlacementChoice.vb" />
+    <Compile Include="GameEngine\CharacterMovement\StandardMovementButtonConfiguration.vb" />
+    <Compile Include="GameEngine\CharacterMovement\StandardMovementRankDeterminer.vb" />
+    <Compile Include="GameEngine\ClickFilter\ClickFilter.vb" />
+    <Compile Include="GameEngine\ClickFilter\ClickFilterManager.vb" />
+    <Compile Include="GameEngine\ClickFilter\RankFilter.vb" />
+    <Compile Include="GameEngine\ClickFilter\StateFilter.vb" />
+    <Compile Include="GameEngine\ClickFilter\Filter.vb" />
+    <Compile Include="GameEngine\ClickFilter\FilterArguments.vb" />
+    <Compile Include="GameEngine\ClickFilter\IFilter.vb" />
+    <Compile Include="GameEngine\ClickFilter\LocationFilter.vb" />
+    <Compile Include="GameEngine\ClickFilter\OwnerFilter.vb" />
+    <Compile Include="GameEngine\ContextMenuCreator.vb" />
+    <Compile Include="GameEngine\Hand\HandModel.vb" />
+    <Compile Include="GameEngine\Hand\HandHolder.vb" />
+    <Compile Include="GameEngine\InfoboxData.vb" />
+    <Compile Include="GameEngine\NoUserInputButtonConfiguration.vb" />
+    <Compile Include="GameEngine\Order\IOrder.vb" />
+    <Compile Include="GameEngine\Order\MoveCharacter.vb" />
+    <Compile Include="GameEngine\Order\OrderPerformer.vb" />
+    <Compile Include="GameEngine\PlayerList.vb" />
+    <Compile Include="GameEngine\Values\Constants.vb" />
+    <Compile Include="GameEngine\DeckInstance.vb" />
+    <Compile Include="GameEngine\DeckManager.vb" />
+    <Compile Include="GameEngine\Die.vb" />
+    <Compile Include="GameEngine\GameEngine.vb" />
+    <Compile Include="GameEngine\GameState.vb" />
+    <Compile Include="GameEngine\Values\Variables.vb" />
+    <Compile Include="Graphics\CardGrid\CardGridClickEventArgs.vb" />
+    <Compile Include="Graphics\CardGrid\CardGridEventArgs.vb" />
+    <Compile Include="Graphics\LogTextHandler.vb" />
+    <Compile Include="Graphics\PlacementDot.Designer.vb">
+      <DependentUpon>PlacementDot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\PlacementDot.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\Hand\HandClickEventArgs.vb" />
+    <Compile Include="Graphics\Hand\HandForm.Designer.vb">
+      <DependentUpon>HandForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Hand\HandForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphics\PerformableActionToolStripItem.Designer.vb">
+      <DependentUpon>PerformableActionToolStripItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\PerformableActionToolStripItem.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Graphics\PromptTextHandler.vb" />
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Prebuilt deck\ChoosePrebuiltDeckForm.Designer.vb">
+      <DependentUpon>ChoosePrebuiltDeckForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Prebuilt deck\ChoosePrebuiltDeckForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphics\DisplayCard.Designer.vb">
+      <DependentUpon>DisplayCard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\DisplayCard.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\FullCard.Designer.vb">
+      <DependentUpon>FullCard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\FullCard.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graphics\MainForm.Designer.vb">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\MainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comm\IServerComm.vb" />
+    <Compile Include="Graphics\SetupGameForm.Designer.vb">
+      <DependentUpon>SetupGameForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\SetupGameForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Graphics\SmallCard.Designer.vb">
+      <DependentUpon>SmallCard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\SmallCard.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LocalServer\LocalServer.vb" />
+    <Compile Include="Common\Player.vb" />
+    <Compile Include="Graphics\CardGrid\CardGrid.Designer.vb">
+      <DependentUpon>CardGrid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\CardGrid\CardGrid.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Prebuilt deck\DeckRepository.vb" />
+    <Compile Include="Prebuilt deck\Decks\BryminsWarriors.vb" />
+    <Compile Include="Prebuilt deck\Decks\ElvishRogues.vb" />
+    <Compile Include="Prebuilt deck\Deck.vb" />
+    <Compile Include="Setup\CharacterForStartingRankDeterminer.vb" />
+    <Compile Include="Setup\DecklistEntry.vb" />
+    <Compile Include="Setup\Decklist.vb" />
+    <Compile Include="Setup\SelectDecksForLocalGameForm.Designer.vb">
+      <DependentUpon>SelectDecksForLocalGameForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\SelectDecksForLocalGameForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\SelectGameTypeForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\SelectGameTypeForm.Designer.vb">
+      <DependentUpon>SelectGameTypeForm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Setup\SetupInfo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Debug\Console.resx">
+      <DependentUpon>Console.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\CardGrid\CardGrid.resx">
+      <DependentUpon>CardGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\PlacementDot.resx">
+      <DependentUpon>PlacementDot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\Hand\HandForm.resx">
+      <DependentUpon>HandForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\MainForm.resx">
+      <DependentUpon>MainForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graphics\SetupGameForm.resx">
+      <DependentUpon>SetupGameForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Prebuilt deck\ChoosePrebuiltDeckForm.resx">
+      <DependentUpon>ChoosePrebuiltDeckForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\SelectDecksForLocalGameForm.resx">
+      <DependentUpon>SelectDecksForLocalGameForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\SelectGameTypeForm.resx">
+      <DependentUpon>SelectGameTypeForm.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\images\placementarrow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\images\placementarrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\images\transparentplacementarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imageedit_2_3784284852.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\placementdot.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
