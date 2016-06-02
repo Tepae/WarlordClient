@@ -26,8 +26,7 @@ Namespace GameEngine.Strike
 
         Private Sub NextStrike(index As Integer)
             If _strikes.Count > index Then
-                Dim sp As New StrikePerformer(_ge, _source, _strikes.GetStrike(index), index, AddressOf NextStrike)
-                sp.PerformStrike()
+
             End If
         End Sub
 

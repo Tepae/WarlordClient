@@ -1,5 +1,4 @@
 ﻿Imports WarlordClient.GameEngine.CharacterMovement
-Imports WarlordClient.GameEngine.Order
 
 Namespace GameEngine.CardPlayer
 
@@ -8,13 +7,11 @@ Namespace GameEngine.CardPlayer
 
         Private ReadOnly _sc As SmallCard
         Private ReadOnly _ge As IUserInterfaceManipulator
-        Private ReadOnly _op As OrderPerformer
         Private ReadOnly _gs As GameState
 
-        Public Sub New(sc As SmallCard, ge As GameEngine, op As OrderPerformer, gs As GameState)
+        Public Sub New(sc As SmallCard, ge As GameEngine, gs As GameState)
             _sc = sc
             _ge = ge
-            _op = op
             _gs = gs
         End Sub
 
@@ -40,7 +37,7 @@ Namespace GameEngine.CardPlayer
         End Sub
 
         Private Sub PlayCharacter(sc As SmallCard, pc As PlacementChoice)
-            _op.Perform(New PlayCharacter(Guid.NewGuid(), _gs.GetOwnerOfCardInstance(sc.Card), _gs, sc.Card, pc, True))
+
         End Sub
 
     End Class

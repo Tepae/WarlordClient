@@ -1,4 +1,5 @@
 ﻿Imports WarlordClient.GameEngine.Card
+Imports WarlordClient.GameEngine.Cards.Card
 
 Public Class PerformableActionToolStripMenuItem
     Inherits ToolStripMenuItem

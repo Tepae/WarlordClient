@@ -8,7 +8,7 @@ Public Class HandForm
 
     Private WithEvents _hand As GameEngine.Hand.HandModel
     Private _margin As Integer = 10
-    Private _drawnCards As List(Of SmallCard)
+    Private ReadOnly _drawnCards As List(Of SmallCard)
 
 #Region "eventhandlers"
 
@@ -25,11 +25,11 @@ Public Class HandForm
 
 #End Region
 
-    Public Sub New(hand As GameEngine.Hand.HandModel, ownerName As String)
+    Public Sub New(hand As Hand.HandModel, ownerName As String)
         InitializeComponent()
         _hand = hand
         _drawnCards = New List(Of SmallCard)
-        Me.Text = String.Format("{0}'s hand - {1}", ownerName, _hand.Owner)
+        Text = String.Format("{0}'s hand - {1}", ownerName, _hand.Owner)
     End Sub
 
     Public Sub DrawCards()
@@ -41,7 +41,7 @@ Public Class HandForm
             Dim sc As New SmallCard(c)
             sc.Location = p
             x += Constants.SmallCardWidth
-            Me.Controls.Add(sc)
+            Controls.Add(sc)
             _drawnCards.Add(sc)
             AddHandler sc.MouseHover, AddressOf HandleMouseHover
             AddHandler sc.MouseClickOnMe, AddressOf HandleClick
@@ -73,7 +73,7 @@ Public Class HandForm
             Return _hand.Cards
         End Get
         Set(value As List(Of CardInstance))
-            _hand.Cards = value
+            _hand.SetCards(value)
             DrawCards()
         End Set
     End Property

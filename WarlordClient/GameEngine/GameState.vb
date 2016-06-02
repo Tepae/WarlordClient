@@ -41,6 +41,13 @@ Namespace GameEngine
             RaiseEvent CardCollectionChanged(cc)
         End Sub
 
+        Public Sub DiscardCardFromHand(ci As CardInstance)
+            Dim owner As Guid = GetOwnerOfCardInstance(ci)
+            Dim hand As HandModel = HandHolder.GetHandModelForOwner(owner)
+            hand.RemoveCard(ci, True)
+            GetDiscardPileById(owner).AddToDiscardPile(ci)
+        End Sub
+
         Public Sub PutCardIntoDiscardPile(ci As CardInstance)
             Dim cc As CardCollection = ThisCardInstanceBelongsToCardCollection(ci)
             cc.Remove(ci)

@@ -3,8 +3,8 @@
     Public Class StandardPlacementButtonConfiguration
         Inherits ButtonConfiguration
 
-        Public Sub New(ge As GameEngine)
-            MyBase.New(False, True, False, Nothing, AddressOf ge.CancelMove, Nothing)
+        Public Sub New(cancelAction As Action)
+            MyBase.New(False, True, False, Nothing, cancelAction, Nothing)
         End Sub
 
     End Class

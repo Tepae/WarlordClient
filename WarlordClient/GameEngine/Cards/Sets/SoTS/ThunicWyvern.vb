@@ -1,4 +1,6 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
+
+Namespace GameEngine
 
     Public Class ThunicWyvern
         Inherits Card.Character
@@ -24,14 +26,6 @@
         Public Overrides Function GetMeleeStrikes() As Strike.StrikeSet
             Return New Strike.StrikeSet(True, Strike.StrikeSet.TargetingTypeEnum.Consecutive, New Strike.MeleeStrike(3))
         End Function
-
-        Public Overrides Function GetOtherActions() As List(Of Card.PerformableAction)
-            Return New List(Of Card.PerformableAction) From {New Card.PerformableAction("Move as order (once per turn)", False, AddressOf MoveAsOrder)}
-        End Function
-
-        Private Sub MoveAsOrder(sc As SmallCard, ge As GameEngine)
-
-        End Sub
 
     End Class
 

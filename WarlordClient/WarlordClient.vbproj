@@ -80,7 +80,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Debug\ConsoleManager.vb" />
-    <Compile Include="GameEngine\ActionPerformer.vb" />
     <Compile Include="GameEngine\ButtonConfiguration.vb" />
     <Compile Include="GameEngine\CardInstance.vb" />
     <Compile Include="GameEngine\CardCollection.vb" />
@@ -91,6 +90,9 @@
     <Compile Include="GameEngine\Cards\Card\Card.vb" />
     <Compile Include="GameEngine\Cards\Card\Character.vb" />
     <Compile Include="GameEngine\Cards\Card\Action.vb" />
+    <Compile Include="GameEngine\CostAndEffect\CostManagerEffectPerformer.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Cost\DiscardCards.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Cost\ICost.vb" />
     <Compile Include="GameEngine\Cards\Card\IMeleeStriker.vb" />
     <Compile Include="GameEngine\Cards\Card\IRangedStriker.vb" />
     <Compile Include="GameEngine\Cards\Card\PerformableAction.vb" />
@@ -106,6 +108,9 @@
     <Compile Include="GameEngine\Cards\Sets\SoTS\SandinYourEyes.vb" />
     <Compile Include="GameEngine\CharacterMovement\CharacterMover.vb" />
     <Compile Include="GameEngine\ClickFilter\RangeFilter.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Effect\IEffect.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Cost\SpendMe.vb" />
+    <Compile Include="GameEngine\CostAndEffect\Effect\MoveCharacter.vb" />
     <Compile Include="GameEngine\DeadCharacterChecker.vb" />
     <Compile Include="GameEngine\DiscardPile.vb" />
     <Compile Include="GameEngine\EventNotifier\EventNotifier.vb" />
@@ -114,11 +119,7 @@
     <Compile Include="GameEngine\CardPlayer\ICardPlayer.vb" />
     <Compile Include="GameEngine\IllegalRankButtonConfiguration.vb" />
     <Compile Include="GameEngine\IUserInterfaceManipulator.vb" />
-    <Compile Include="GameEngine\OrderPerTurnCountervb.vb" />
-    <Compile Include="GameEngine\Order\PerformStrike.vb" />
-    <Compile Include="GameEngine\Order\PlayCard.vb" />
-    <Compile Include="GameEngine\Order\PlayCharacter.vb" />
-    <Compile Include="GameEngine\Strike\StrikePerformer.vb" />
+    <Compile Include="GameEngine\OrderPerTurnCounter.vb" />
     <Compile Include="GameEngine\Strike\MeleeStrike.vb" />
     <Compile Include="GameEngine\Strike\RangedStrike.vb" />
     <Compile Include="GameEngine\Strike\Strike.vb" />
@@ -155,9 +156,6 @@
     <Compile Include="GameEngine\Hand\HandHolder.vb" />
     <Compile Include="GameEngine\InfoboxData.vb" />
     <Compile Include="GameEngine\NoUserInputButtonConfiguration.vb" />
-    <Compile Include="GameEngine\Order\IOrder.vb" />
-    <Compile Include="GameEngine\Order\MoveCharacter.vb" />
-    <Compile Include="GameEngine\Order\OrderPerformer.vb" />
     <Compile Include="GameEngine\PlayerList.vb" />
     <Compile Include="GameEngine\Values\Constants.vb" />
     <Compile Include="GameEngine\DeckInstance.vb" />

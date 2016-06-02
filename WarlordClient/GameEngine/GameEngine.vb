@@ -3,7 +3,6 @@ Imports WarlordClient.GameEngine.ClickFilter.ClickFilterManager
 Imports WarlordClient.GameEngine.CharacterMovement
 Imports WarlordClient.GameEngine.Hand
 Imports WarlordClient.GameEngine.CardPlayer
-Imports WarlordClient.GameEngine.Order
 
 Namespace GameEngine
 
@@ -40,8 +39,6 @@ Namespace GameEngine
             _deckManager = New DeckManager
             _gameState = New GameState
             Players = New PlayerList
-            ActionPerformer.Initialize(Me)
-            OrderPerformer = New OrderPerformer(Me)
         End Sub
 
 #End Region
@@ -95,12 +92,11 @@ Namespace GameEngine
 #Region "movement"
 
         Public Sub MoveCharacter(sc As SmallCard, range As Integer)
-            MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForStandardMovement(Me, sc, CardCollectionOfCardInstance(sc.Card), range))
+            '  MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForStandardMovement(Me, sc, CardCollectionOfCardInstance(sc.Card), range))
         End Sub
 
         Private Sub MoveCharacter(dialog As CharacterPlacementDialog)
-            Dim cm As New CharacterMover(Guid.NewGuid, Me, dialog)
-            cm.MoveCharacter()
+
         End Sub
 
         Public Sub CancelMove()
@@ -135,7 +131,7 @@ Namespace GameEngine
         End Sub
 
         Private Sub CharacterToFallForwardChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForIllegalRank(Me, sc, CardCollectionOfCardInstance(sc.Card)))
+            '   MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForIllegalRank(Me, sc, CardCollectionOfCardInstance(sc.Card), Guid.NewGuid()))
         End Sub
 
 #End Region
@@ -165,15 +161,7 @@ Namespace GameEngine
 #Region "play card"
 
         Public Sub PlayCard(sc As SmallCard)
-            CardPlayerFactory.CreateCardPlayer(sc, Me, OrderPerformer, GameState).PlayCard()
-        End Sub
 
-#End Region
-
-#Region "order"
-
-        Public Sub PerformOrder(order As IOrder)
-            OrderPerformer.Perform(order)
         End Sub
 
 #End Region
@@ -199,7 +187,7 @@ Namespace GameEngine
 
         Private Sub EachLocalPlayerDiscardsAndDraws()
             For Each pl As Player In Players.GetPlayersByType(Player.PlayerType.Local)
-                GameState.GetHandModelById(pl.Id).AddCards(DrawCardsToHandsize(pl.Id, GameState.GetHandModelById(pl.Id).Cards.Count))
+                GameState.GetHandModelById(pl.Id).AddCards(DrawCardsToHandsize(pl.Id, GameState.GetHandModelById(pl.Id).NumberOfCardsInHand()))
             Next
         End Sub
 
@@ -311,6 +299,18 @@ Namespace GameEngine
             Return _gameState.ThisCardInstanceBelongsToCardCollection(ci)
         End Function
 
+        Public Function GetContextMenuCreator() As ContextMenuCreator
+            Return New ContextMenuCreator(GameState, Me)
+        End Function
+
+        Public Sub CleanContextSensitiveVisuals() Implements IUserInterfaceManipulator.CleanContextSensitiveVisuals
+            For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
+                ClearPlacementDotsFromCardGrid(plr.Id)
+            Next
+            SetActiveFilterForPlayer()
+            SetInfoboxToDefault()
+        End Sub
+
 #End Region
 
 #Region "mainform"
@@ -369,8 +369,6 @@ Namespace GameEngine
                 _localPlayer = Value
             End Set
         End Property
-
-        Private ReadOnly Property OrderPerformer As OrderPerformer
 
         Private ReadOnly Property CardPlayerFactory As CardPlayerFactory
             Get

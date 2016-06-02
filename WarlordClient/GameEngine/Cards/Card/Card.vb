@@ -1,4 +1,6 @@
-﻿Namespace GameEngine.Card
+﻿Imports WarlordClient.GameEngine.Cards.Card
+
+Namespace GameEngine.Card
 
     Public MustInherit Class Card
 
@@ -40,10 +42,6 @@
         Public Overridable Function IsDummy() As Boolean
             Return False
         End Function
-
-        Public Overridable Sub PerformDefaultAction(sc As SmallCard, ge As GameEngine)
-            _defaultPerformableAction.Action.Invoke(sc, ge)
-        End Sub
 
         Public Overridable Function GetPerformableActions() As List(Of PerformableAction)
             Return Me.Actions
@@ -114,11 +112,6 @@
 
 #End Region
 
-#Region "delegates"
-
-        Public Delegate Sub ActionDelegate(sc As SmallCard, ge As GameEngine)
-
-#End Region
 
     End Class
 

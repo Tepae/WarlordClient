@@ -2,8 +2,8 @@
     Public Class IllegalRankButtonConfiguration
         Inherits ButtonConfiguration
 
-        Public Sub New(ge As GameEngine)
-            MyBase.New(False, True, False, Nothing, AddressOf ge.CheckIllegalRanks, Nothing)
+        Public Sub New(cancelAction As Action)
+            MyBase.New(False, True, False, Nothing, cancelAction, Nothing)
         End Sub
 
     End Class

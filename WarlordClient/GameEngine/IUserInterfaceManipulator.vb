@@ -10,6 +10,7 @@ Namespace GameEngine
         Sub SetInfoboxToDefault()
         Sub DrawPlacementDotsToCardGrid(id As Guid, sc As SmallCard, movementChoices As List(Of PlacementChoice), callback As Action(Of SmallCard, PlacementChoice))
         Sub ClearPlacementDotsFromCardGrid(id As Guid)
+        Sub CleanContextSensitiveVisuals()
     End Interface
 
 End Namespace

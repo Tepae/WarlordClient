@@ -1,4 +1,8 @@
-﻿Imports WarlordClient.GameEngine.ClickFilter
+﻿Imports WarlordClient.GameEngine.Cards.Card
+Imports WarlordClient.GameEngine.ClickFilter
+Imports WarlordClient.GameEngine.CostAndEffect
+Imports WarlordClient.GameEngine.CostAndEffect.Cost
+Imports WarlordClient.GameEngine.CostAndEffect.Effect
 
 Namespace GameEngine.Card
 
@@ -64,29 +68,17 @@ Namespace GameEngine.Card
 
         Private Sub AddPerformableActions()
             If CanSpendToMoveForward() Or CanSpendToMoveBackward() Then
-                Me.Actions.Add(New PerformableAction("Spend to move", True, AddressOf MoveCharacter))
+                Me.Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacter(1)}))
             End If
             If GetMeleeStrikes().Count > 0 Then
-                Me.Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, True, AddressOf PerformGenericMeleeStrike))
+                Me.Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect)))
             End If
             If GetRangedStrikes().Count > 0 Then
-                Me.Actions.Add(New PerformableAction(GetRangedStrikes.ToString, True, AddressOf PerformGenericRangedStrike))
+                Me.Actions.Add(New PerformableAction(GetRangedStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect)))
             End If
             For Each pa As PerformableAction In GetOtherActions()
                 Me.Actions.Add(pa)
             Next
-        End Sub
-
-        Private Sub MoveCharacter(sc As SmallCard, ge As GameEngine)
-            ge.MoveCharacter(sc, MovementRange)
-        End Sub
-
-        Private Sub PerformGenericMeleeStrike(sc As SmallCard, ge As GameEngine)
-            ge.PerformGenericMeleeStrike(sc)
-        End Sub
-
-        Private Sub PerformGenericRangedStrike(sc As SmallCard, ge As GameEngine)
-            ge.PerformGenericRangedStrike(sc)
         End Sub
 
 #End Region

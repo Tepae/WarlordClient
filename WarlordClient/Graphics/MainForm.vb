@@ -159,7 +159,7 @@ Namespace Graphics
         End Sub
 
         Private Sub CreateContextMenyForCardInPlay(sc As SmallCard, e As CardGridClickEventArgs)
-            Dim cmc As New ContextMenuCreator()
+            Dim cmc As ContextMenuCreator = GameEngine.GetContextMenuCreator()
             cmc.CreateContextMenu(sc, e.MouseArgs.X, e.MouseArgs.Y)
         End Sub
 

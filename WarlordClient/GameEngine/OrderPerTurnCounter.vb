@@ -1,6 +1,6 @@
 ﻿Namespace GameEngine
 
-    Public Class OrderPerTurnCountervb
+    Public Class OrderPerTurnCounter
 
         Private Shared ReadOnly OrdersPlayedByCardInstance As New Dictionary(Of Guid, Dictionary(Of String, Integer))
 

@@ -5,8 +5,8 @@
 
         Private _location As CardInstance.Location
 
-        Public Sub New(owner As CardInstance.Location)
-            _location = owner
+        Public Sub New(location As CardInstance.Location)
+            _location = location
         End Sub
 
         Public Function Evaluate(args As FilterArguments) As Boolean Implements IFilter.Evaluate

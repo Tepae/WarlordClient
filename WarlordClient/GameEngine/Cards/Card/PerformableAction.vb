@@ -1,15 +1,17 @@
-﻿Namespace GameEngine.Card
+﻿Imports WarlordClient.GameEngine.CostAndEffect
+Imports WarlordClient.GameEngine.CostAndEffect.Cost
+Imports WarlordClient.GameEngine.CostAndEffect.Effect
+
+Namespace GameEngine.Cards.Card
 
     Public Class PerformableAction
 
-        Private _description As String = String.Empty
-        Private _requiresSpending As Boolean = False
-        Private _action As Card.ActionDelegate = Nothing
+        Private ReadOnly _description As String = String.Empty
 
-        Public Sub New(description As String, requiresSpending As Boolean, action As Card.ActionDelegate)
+        Public Sub New(description As String, costs As List(Of ICost), effects As List(Of IEffect))
             _description = description
-            _requiresSpending = requiresSpending
-            _action = action
+            Me.Effects = effects
+            Me.Costs = costs
         End Sub
 
         Public ReadOnly Property Description As String
@@ -18,17 +20,8 @@
             End Get
         End Property
 
-        Public ReadOnly Property RequiresSpending As Boolean
-            Get
-                Return _requiresSpending
-            End Get
-        End Property
-
-        Public ReadOnly Property Action As Card.ActionDelegate
-            Get
-                Return _action
-            End Get
-        End Property
+        Public Property Costs As List(Of ICost)
+        Public Property Effects As List(Of IEffect)
 
     End Class
 
