@@ -13,12 +13,12 @@
             Me._level = 2
             Me._classes.Add([Class].Wizard)
             'character
-            Me._races.Add(Race.Elf)
-            Me._armorClass = 10
-            Me._skill = 3
+            Me.Races.Add(RaceEnum.Elf)
+            Me.ArmorClass = 10
+            Me.Skill = 3
             Me._hitPoints = 1
-            Me._alignment = Alignment.Evil
-            Me._flavorTraits.Add("Syneri")
+            Me.Alignment = AlignmentEnum.Evil
+            Me.FlavorTraits.Add("Syneri")
 
         End Sub
 

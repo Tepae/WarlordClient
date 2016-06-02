@@ -7,20 +7,20 @@ Namespace GameEngine.Card
         Implements IMeleeStriker
         Implements IRangedStriker
 
-        Friend _races As New List(Of Race)
-        Friend _armorClass As Integer
-        Friend _skill As Integer
+        Private ReadOnly _races As New List(Of RaceEnum)
+        Friend ArmorClass As Integer
+        Friend Skill As Integer
         Friend _hitPoints As Integer
-        Friend _alignment As Alignment
-        Friend _traits As New List(Of CharacterTrait)
-        Friend _flavorTraits As New List(Of String)
+        Friend Alignment As AlignmentEnum
+        Friend ReadOnly Traits As New List(Of CharacterTraitEnum)
+        Friend ReadOnly FlavorTraits As New List(Of String)
 
         Public Sub New()
             MyBase.New()
             Me._cardType = CardTypeEnum.Character
-            _races = New List(Of Race)
-            _traits = New List(Of CharacterTrait)
-            _flavorTraits = New List(Of String)
+            _races = New List(Of RaceEnum)
+            Traits = New List(Of CharacterTraitEnum)
+            FlavorTraits = New List(Of String)
             AddPerformableActions()
         End Sub
 
@@ -93,7 +93,7 @@ Namespace GameEngine.Card
 
 #Region "properties"
 
-        Public ReadOnly Property Races As List(Of Race)
+        Public ReadOnly Property Races As List(Of RaceEnum)
             Get
                 Return _races
             End Get
@@ -115,12 +115,12 @@ Namespace GameEngine.Card
 
 #Region "enums"
 
-        Public Enum Alignment
+        Public Enum AlignmentEnum
             Evil
             Good
         End Enum
 
-        Public Enum CharacterTrait
+        Public Enum CharacterTraitEnum
             Any
             Monster
             Scout
@@ -128,7 +128,7 @@ Namespace GameEngine.Card
             Unique
         End Enum
 
-        Public Enum Race
+        Public Enum RaceEnum
             Any
             Deveranian
             Dwarf

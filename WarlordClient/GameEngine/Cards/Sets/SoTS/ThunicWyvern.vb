@@ -1,8 +1,4 @@
-﻿Imports WarlordClient.GameEngine.Cost.CostAndEffect
-Imports WarlordClient.GameEngine.CostAndEffect
-Imports WarlordClient.GameEngine.CostAndEffect.Effect
-
-Namespace GameEngine
+﻿Namespace GameEngine
 
     Public Class ThunicWyvern
         Inherits Card.Character
@@ -16,12 +12,12 @@ Namespace GameEngine
             Me._level = 2
             Me._classes.Add([Class].None)
             'character
-            Me._races.Add(Race.Mercenary)
-            Me._armorClass = 13
-            Me._skill = 1
+            Me.Races.Add(RaceEnum.Mercenary)
+            Me.ArmorClass = 13
+            Me.Skill = 1
             Me._hitPoints = 1
-            Me._alignment = Alignment.Evil
-            Me._traits.Add(CharacterTrait.Monster)
+            Me.Alignment = AlignmentEnum.Evil
+            Me.Traits.Add(CharacterTraitEnum.Monster)
 
         End Sub
 
@@ -34,11 +30,7 @@ Namespace GameEngine
         End Function
 
         Private Sub MoveAsOrder(sc As SmallCard, ge As GameEngine)
-            Dim caea As New CostAndEffectAction(sc,
-                                                ge,
-                                                New List(Of ICost) From {New DiscardCards(1, ge)},
-                                                New List(Of IEffect) From {New MoveCharacterEffect(1)})
-            caea.PayCostsToGetEffects()
+
         End Sub
 
     End Class

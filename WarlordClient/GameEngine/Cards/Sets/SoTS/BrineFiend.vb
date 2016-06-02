@@ -13,12 +13,12 @@
             Me._level = 1
             Me._classes.Add([Class].None)
             'character
-            Me._races.Add(Race.Mercenary)
-            Me._armorClass = 8
-            Me._skill = 0
+            Me.Races.Add(RaceEnum.Mercenary)
+            Me.ArmorClass = 8
+            Me.Skill = 0
             Me._hitPoints = 2
-            Me._alignment = Alignment.Evil
-            Me._traits.Add(CharacterTrait.Monster)
+            Me.Alignment = AlignmentEnum.Evil
+            Me.Traits.Add(CharacterTraitEnum.Monster)
 
         End Sub
     End Class

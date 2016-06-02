@@ -1,8 +1,4 @@
-﻿Imports WarlordClient.GameEngine.CostAndEffect
-Imports WarlordClient.GameEngine.Cost.CostAndEffect
-Imports WarlordClient.GameEngine.CostAndEffect.Effect
-
-Namespace GameEngine
+﻿Namespace GameEngine
 
     Public Class Rathe
         Inherits Card.Warlord
@@ -16,13 +12,13 @@ Namespace GameEngine
             Me._level = 5
             Me._classes.Add([Class].Rogue)
             'character
-            Me._races.Add(Race.Elf)
-            Me._armorClass = 16
-            Me._skill = 8
+            Me.Races.Add(RaceEnum.Elf)
+            Me.ArmorClass = 16
+            Me.Skill = 8
             Me._hitPoints = 3
-            Me._alignment = Alignment.Evil
-            Me._traits.Add(CharacterTrait.Unique)
-            Me._traits.Add(CharacterTrait.Warlord)
+            Me.Alignment = AlignmentEnum.Evil
+            Me.Traits.Add(CharacterTraitEnum.Unique)
+            Me.Traits.Add(CharacterTraitEnum.Warlord)
         End Sub
 
         Public Overrides Function GetMeleeStrikes() As Strike.StrikeSet
@@ -34,11 +30,7 @@ Namespace GameEngine
         End Function
 
         Private Sub DiscardToMove(sc As SmallCard, ge As GameEngine)
-            Dim caea As New CostAndEffectAction(sc, _
-                                                ge, _
-                                                New List(Of ICost) From {New DiscardCards(1, ge)}, _
-                                                New List(Of IEffect) From {New MoveCharacterEffect(1)})
-            caea.PayCostsToGetEffects()
+
         End Sub
 
     End Class

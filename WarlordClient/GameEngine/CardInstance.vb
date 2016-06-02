@@ -102,7 +102,7 @@
         End Function
 
         Public Function ArmorClass() As Integer
-            Return DirectCast(_card, Card.Character)._armorClass
+            Return DirectCast(_card, Card.Character).ArmorClass
         End Function
 
         Public Sub Wound(numberOfWounds As Integer)

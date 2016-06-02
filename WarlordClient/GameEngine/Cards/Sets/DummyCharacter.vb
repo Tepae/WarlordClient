@@ -15,11 +15,11 @@ Namespace GameEngine
             Me._level = 1
             Me._classes.Add([Class].Any)
             'character
-            Me._races.Add(Race.Any)
-            Me._armorClass = 1
-            Me._skill = 0
+            Me.Races.Add(RaceEnum.Any)
+            Me.ArmorClass = 1
+            Me.Skill = 0
             Me._hitPoints = 1
-            Me._alignment = Alignment.Evil
+            Me.Alignment = AlignmentEnum.Evil
 
         End Sub
 

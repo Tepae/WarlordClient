@@ -12,12 +12,12 @@
             Me._level = 2
             Me._classes.Add([Class].Rogue)
             'character
-            Me._races.Add(Race.Elf)
-            Me._armorClass = 12
-            Me._skill = 2
+            Me.Races.Add(RaceEnum.Elf)
+            Me.ArmorClass = 12
+            Me.Skill = 2
             Me._hitPoints = 1
-            Me._alignment = Alignment.Evil
-            Me._flavorTraits.Add("Glyn")
+            Me.Alignment = AlignmentEnum.Evil
+            Me.FlavorTraits.Add("Glyn")
 
         End Sub
 

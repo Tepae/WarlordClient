@@ -106,11 +106,6 @@
     <Compile Include="GameEngine\Cards\Sets\SoTS\SandinYourEyes.vb" />
     <Compile Include="GameEngine\CharacterMovement\CharacterMover.vb" />
     <Compile Include="GameEngine\ClickFilter\RangeFilter.vb" />
-    <Compile Include="GameEngine\CostAndEffect\CostAndEffectAction.vb" />
-    <Compile Include="GameEngine\CostAndEffect\Cost\DiscardCards.vb" />
-    <Compile Include="GameEngine\CostAndEffect\Effect\MoveCharacterEffect.vb" />
-    <Compile Include="GameEngine\CostAndEffect\ICost.vb" />
-    <Compile Include="GameEngine\CostAndEffect\IEffect.vb" />
     <Compile Include="GameEngine\DeadCharacterChecker.vb" />
     <Compile Include="GameEngine\DiscardPile.vb" />
     <Compile Include="GameEngine\EventNotifier\EventNotifier.vb" />

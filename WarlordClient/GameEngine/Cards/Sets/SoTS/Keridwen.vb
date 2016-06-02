@@ -12,12 +12,12 @@
             Me._level = 2
             Me._classes.Add([Class].Rogue)
             'character
-            Me._races.Add(Race.Mercenary)
-            Me._armorClass = 9
-            Me._skill = 0
+            Me.Races.Add(RaceEnum.Mercenary)
+            Me.ArmorClass = 9
+            Me.Skill = 0
             Me._hitPoints = 1
-            Me._alignment = Alignment.Good
-            Me._flavorTraits.Add("Tribe of Stags")
+            Me.Alignment = AlignmentEnum.Good
+            Me.FlavorTraits.Add("Tribe of Stags")
 
         End Sub
 
