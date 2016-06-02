@@ -41,7 +41,7 @@ Namespace GameEngine
             _gameState = New GameState
             Players = New PlayerList
             ActionPerformer.Initialize(Me)
-            OrderPerformer = New Order.OrderPerformer(Me)
+            OrderPerformer = New OrderPerformer(Me)
         End Sub
 
 #End Region
@@ -230,10 +230,10 @@ Namespace GameEngine
 
         Public Function CheckIllegalRanks() As Boolean
             Dim ret = True
-            For Each localPlayer As Player In Players.GetPlayersByType(Player.PlayerType.Local)
-                Dim rank As Integer = GameState.GetFirstIllegalRank(localPlayer.Id)
+            For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
+                Dim rank As Integer = GameState.GetFirstIllegalRank(plr.Id)
                 If rank > 0 Then
-                    PromptPlayerToFixIllegalRank(rank, localPlayer)
+                    PromptPlayerToFixIllegalRank(rank, plr)
                     ret = False
                     Exit For
                 End If
@@ -370,7 +370,7 @@ Namespace GameEngine
             End Set
         End Property
 
-        Private ReadOnly Property OrderPerformer As Order.OrderPerformer
+        Private ReadOnly Property OrderPerformer As OrderPerformer
 
         Private ReadOnly Property CardPlayerFactory As CardPlayerFactory
             Get

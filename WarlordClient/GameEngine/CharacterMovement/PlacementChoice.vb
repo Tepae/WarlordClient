@@ -2,10 +2,10 @@
 
     Public Class PlacementChoice
 
-        Private _rank As Integer
-        Private _left As CardInstance
-        Private _right As CardInstance
-        Private _placementType As PlacementTypeEnum
+        Private ReadOnly _rank As Integer
+        Private ReadOnly _left As CardInstance
+        Private ReadOnly _right As CardInstance
+        Private ReadOnly _placementType As PlacementTypeEnum
 
         Public Sub New(rank As Integer, left As CardInstance, right As CardInstance, placementType As PlacementTypeEnum)
             _rank = rank

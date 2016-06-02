@@ -7,7 +7,11 @@
             Dim ret As New List(Of Integer)
             Dim currentRank As Integer = cc.RankAndPlaceOfCharacter(ci).Key
             For i As Integer = 1 To cc.RankCount Step 1
-                If i = currentRank OrElse (currentRank - range) <= i OrElse (currentRank + range <= i) Then
+                If i = currentRank Then
+                    ret.Add(i)
+                ElseIf i < currentRank AndAlso currentRank - range <= i Then
+                    ret.Add(i)
+                ElseIf i > currentRank AndAlso currentRank + range >= i Then
                     ret.Add(i)
                 End If
             Next

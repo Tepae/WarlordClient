@@ -2,10 +2,10 @@
 
     Public Class CharacterMover
 
-        Private _ge As GameEngine
-        Private _id As Guid
+        Private ReadOnly _ge As GameEngine
+        Private ReadOnly _id As Guid
         Private WithEvents _cpd As CharacterPlacementDialog
-        Private _passTurn As Boolean
+        Private ReadOnly _passTurn As Boolean
 
         Public Sub New(id As Guid, ge As GameEngine, cpd As CharacterPlacementDialog)
             Me.New(id, ge, cpd, True)

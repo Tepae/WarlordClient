@@ -43,7 +43,7 @@
             Dim ret As New List(Of PlacementChoice)
             Dim ranks As List(Of Integer) = GetAvalibleRanksForPlacement()
             For Each rank As Integer In ranks
-                ret.AddRange(GetMovementChoicesForRank(rank, _sc.Card))
+                ret.AddRange(GetPlacementChoices(rank, _sc.Card))
             Next
             Return ret
         End Function
@@ -52,22 +52,20 @@
             Return _rankDeterminer.GetAvalibleRanksForPlacement(_cardCollectionToPlaceCharacter, _sc.Card, _range)
         End Function
 
-        Private Function GetMovementChoicesForRank(rank As Integer, c As CardInstance) As List(Of PlacementChoice)
+        Private Function GetPlacementChoices(rank As Integer, c As CardInstance) As List(Of PlacementChoice)
             Dim ret As New List(Of PlacementChoice)
             Dim charactersInRank As List(Of CardInstance) = _cardCollectionToPlaceCharacter.CharactersInRank(rank)
             If charactersInRank.Count > 0 Then
-                If Not _cardCollectionToPlaceCharacter.RankAndPlaceOfCharacter(c).Key = rank Then
-                    For i = 0 To charactersInRank.Count - 1 Step 1
-                        Dim currentCard As CardInstance = charactersInRank(i)
-                        Dim nextCard As CardInstance = If(i < charactersInRank.Count - 1, charactersInRank(i + 1), Nothing)
-                        If i = 0 AndAlso Not currentCard.Id = c.Id Then
-                            ret.Add(New PlacementChoice(rank, Nothing, currentCard, _type))
-                        End If
-                        If Not currentCard.Id = c.Id AndAlso (nextCard Is Nothing OrElse Not nextCard.Id = c.Id) Then
-                            ret.Add(New PlacementChoice(rank, currentCard, nextCard, _type))
-                        End If
-                    Next
-                End If
+                For i = 0 To charactersInRank.Count - 1 Step 1
+                    Dim currentCard As CardInstance = charactersInRank(i)
+                    Dim nextCard As CardInstance = If(i < charactersInRank.Count - 1, charactersInRank(i + 1), Nothing)
+                    If i = 0 AndAlso Not currentCard.Id = c.Id Then
+                        ret.Add(New PlacementChoice(rank, Nothing, currentCard, _type))
+                    End If
+                    If Not currentCard.Id = c.Id AndAlso (nextCard Is Nothing OrElse Not nextCard.Id = c.Id) Then
+                        ret.Add(New PlacementChoice(rank, currentCard, nextCard, _type))
+                    End If
+                Next
             ElseIf charactersInRank.Count = 0 Then
                 ret.Add(New PlacementChoice(rank, Nothing, Nothing, _type))
             End If

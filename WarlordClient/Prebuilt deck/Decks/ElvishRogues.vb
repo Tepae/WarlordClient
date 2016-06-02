@@ -22,6 +22,7 @@
             Cards.Add("Gueniveure", 3)
             Cards.Add("Kether", 3)
             Cards.Add("Keridwen", 3)
+            Cards.Add("Thunic Wyvern", 3)
 
             'Actions
             Cards.Add("Throw", 3)

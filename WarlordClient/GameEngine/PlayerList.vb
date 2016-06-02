@@ -5,7 +5,7 @@ Namespace GameEngine
 
     Public Class PlayerList
 
-        Private _players As List(Of Player)
+        Private ReadOnly _players As List(Of Player)
 
         Public Sub New()
             _players = New List(Of Player)

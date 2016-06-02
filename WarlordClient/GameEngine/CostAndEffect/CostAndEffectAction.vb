@@ -2,10 +2,10 @@
 
     Public Class CostAndEffectAction
 
-        Private _source As SmallCard
-        Private _ge As GameEngine
-        Private _costs As List(Of ICost)
-        Private _effects As List(Of IEffect)
+        Private ReadOnly _source As SmallCard
+        Private ReadOnly _ge As GameEngine
+        Private ReadOnly _costs As List(Of ICost)
+        Private ReadOnly _effects As List(Of IEffect)
 
         Public Sub New(source As SmallCard, ge As GameEngine, costs As List(Of ICost), effects As List(Of IEffect))
             _source = source
@@ -89,7 +89,6 @@
         Private Sub PlayEffects()
             Dim effect As IEffect = GetNextEffect()
             If effect IsNot Nothing Then
-                Dim id As Guid = Guid.NewGuid
                 effect.Perform(Guid.NewGuid, _source, _ge, EffectIsLastToBePerformed(effect))
             Else
                 RemoveEventHandlers()

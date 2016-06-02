@@ -95,6 +95,7 @@
     <Compile Include="GameEngine\Cards\Card\IRangedStriker.vb" />
     <Compile Include="GameEngine\Cards\Card\PerformableAction.vb" />
     <Compile Include="GameEngine\Cards\Sets\AS\Kether.vb" />
+    <Compile Include="GameEngine\Cards\Sets\SoTS\ThunicWyvern.vb" />
     <Compile Include="GameEngine\CharacterMovement\CharacterPlacementDialogFactory.vb" />
     <Compile Include="GameEngine\CharacterMovement\IInfoBoxTextGenerator.vb" />
     <Compile Include="GameEngine\CharacterMovement\MovementInfoBoxTextGenerator.vb" />
@@ -118,6 +119,7 @@
     <Compile Include="GameEngine\CardPlayer\ICardPlayer.vb" />
     <Compile Include="GameEngine\IllegalRankButtonConfiguration.vb" />
     <Compile Include="GameEngine\IUserInterfaceManipulator.vb" />
+    <Compile Include="GameEngine\OrderPerTurnCountervb.vb" />
     <Compile Include="GameEngine\Order\PerformStrike.vb" />
     <Compile Include="GameEngine\Order\PlayCard.vb" />
     <Compile Include="GameEngine\Order\PlayCharacter.vb" />

@@ -28,7 +28,7 @@ Namespace GameEngine.Order
             _gameState.GetHandModelById(Owner).RemoveCard(Ci, True)
             Ci.CardState = DirectCast(Ci.Card, Character).StartingState()
             _gameState.AddCharacterToRankFromPlacementChoice(Owner, Ci, _placementChoice)
-            ge.RaiseSystemMessage(String.Format("{0} plays {1}", ge.GetPlayerById(Owner), Ci.Card.Name))
+            ge.RaiseSystemMessage(String.Format("{0} plays {1}", ge.GetPlayerById(Owner).Name, Ci.Card.Name))
             ge.ClearPlacementDotsFromCardGrid(Owner)
         End Sub
 

@@ -10,7 +10,7 @@ Namespace GameEngine
             _sc = sc
             Dim cm As New ContextMenuStrip
             For Each pa As PerformableAction In sc.Card.Card.GetPerformableActions
-                Dim item As PerformableActionToolStripMenuItem = New PerformableActionToolStripMenuItem(pa)
+                Dim item = New PerformableActionToolStripMenuItem(pa)
                 If (item.Action.RequiresSpending AndAlso sc.Card.CardState <> CardInstance.State.Ready) OrElse sc.Card.CardState = CardInstance.State.Stunned Then
                     item.Enabled = False
                 End If
@@ -30,7 +30,7 @@ Namespace GameEngine
         End Sub
 
         Private Sub TearDownEventHandlers(sender As Object, e As EventArgs)
-            Dim cm As ContextMenuStrip = DirectCast(sender, ContextMenuStrip)
+            Dim cm = DirectCast(sender, ContextMenuStrip)
             RemoveHandler cm.ItemClicked, AddressOf PerformAction
             RemoveHandler cm.Closed, AddressOf TearDownEventHandlers
         End Sub
