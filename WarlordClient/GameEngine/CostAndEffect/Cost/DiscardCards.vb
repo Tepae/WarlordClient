@@ -6,26 +6,20 @@ Namespace GameEngine.CostAndEffect.Cost
         Implements ICost
 
         Private _amount As Integer
-        Private _id As Guid
-        Private _sourceCard As SmallCard
         Private _gs As GameState
         Private _ownerOfCard As Guid
-        Private _uim As IUserInterfaceManipulator
 
         Public Sub New(amount As Integer)
             _amount = amount
         End Sub
 
-        Public Sub Pay(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, uim As IUserInterfaceManipulator, gs As GameState) Implements ICost.Pay
-            _id = id
-            _sourceCard = sourceCard
+        Public Sub Pay(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, gs As GameState) Implements ICost.Pay
             _ownerOfCard = ownerOfCard
-            _uim = uim
             _gs = gs
             NextDiscard()
         End Sub
 
-        Public Sub Refund(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, uim As IUserInterfaceManipulator, gs As GameState) Implements ICost.Refund
+        Public Sub Refund(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, gs As GameState) Implements ICost.Refund
             'not supported
         End Sub
 
@@ -38,7 +32,7 @@ Namespace GameEngine.CostAndEffect.Cost
         End Function
 
         Private Sub NextDiscard()
-            _uim.SetFilterForPlayer(GetFilter(_ownerOfCard), AddressOf CardChosen)
+            GameEngineObjects.UserInterfaceManipulator.SetFilterForPlayer(GetFilter(_ownerOfCard), AddressOf CardChosen)
         End Sub
 
         Private Function GetFilter(ownerOfCard As Guid) As ClickFilter.ClickFilter

@@ -1,9 +1,9 @@
 ﻿Namespace GameEngine.CharacterMovement
 
     Public Class PlayFromHandRankDeterminer
-        Implements IRanksAvalibleForPlacementDeterminer
+        Implements IRanksAvailableForPlacementDeterminer
 
-        Public Function GetAvalibleRanksForPlacement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer) Implements IRanksAvalibleForPlacementDeterminer.GetAvalibleRanksForPlacement
+        Public Function GetAvailableRanksForMovement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer) Implements IRanksAvailableForPlacementDeterminer.GetAvailableRanksForMovement
             Return DirectCast(ci.Card, Card.Character).RanksForPlacement
         End Function
 

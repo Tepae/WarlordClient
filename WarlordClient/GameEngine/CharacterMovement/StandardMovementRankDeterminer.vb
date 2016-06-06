@@ -1,9 +1,9 @@
 ﻿Namespace GameEngine.CharacterMovement
 
     Public Class StandardPlacementRankDeterminer
-        Implements IRanksAvalibleForPlacementDeterminer
+        Implements IRanksAvailableForPlacementDeterminer
 
-        Public Function GetAvalibleRanksForPlacement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer) Implements IRanksAvalibleForPlacementDeterminer.GetAvalibleRanksForPlacement
+        Public Function GetAvailableRanksForMovement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer) Implements IRanksAvailableForPlacementDeterminer.GetAvailableRanksForMovement
             Dim ret As New List(Of Integer)
             Dim currentRank As Integer = cc.RankAndPlaceOfCharacter(ci).Key
             For i As Integer = 1 To cc.RankCount Step 1

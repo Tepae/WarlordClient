@@ -2,11 +2,10 @@
 
     Public Class DiscardPile
 
-        Private _cards As Stack(Of CardInstance)
-        Private _owner As Guid
+        Private ReadOnly _cards As Stack(Of CardInstance)
 
         Public Sub New(owner As Guid)
-            _owner = owner
+            Me.Owner = owner
             _cards = New Stack(Of CardInstance)
         End Sub
 
@@ -20,10 +19,6 @@
         End Sub
 
         Public ReadOnly Property Owner As Guid
-            Get
-                Return _owner
-            End Get
-        End Property
 
         Public ReadOnly Property Cards As List(Of CardInstance)
             Get

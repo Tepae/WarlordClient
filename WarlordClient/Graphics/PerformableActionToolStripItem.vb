@@ -1,25 +1,28 @@
-﻿Imports WarlordClient.GameEngine.Card
-Imports WarlordClient.GameEngine.Cards.Card
+﻿Imports WarlordClient.GameEngine.Cards.Card
 
-Public Class PerformableActionToolStripMenuItem
-    Inherits ToolStripMenuItem
+Namespace Graphics
 
-    Private _pa As PerformableAction
+    Public Class PerformableActionToolStripMenuItem
+        Inherits ToolStripMenuItem
 
-    Public Sub New(pa As PerformableAction)
-        InitializeComponent()
-        _pa = pa
-        Me.Text = Me.ToString
-    End Sub
+        Private ReadOnly _pa As PerformableAction
 
-    Public Overrides Function ToString() As String
-        Return _pa.Description
-    End Function
+        Public Sub New(pa As PerformableAction)
+            InitializeComponent()
+            _pa = pa
+            Text = ToString()
+        End Sub
 
-    Public ReadOnly Property Action As PerformableAction
-        Get
-            Return _pa
-        End Get
-    End Property
+        Public Overrides Function ToString() As String
+            Return _pa.Description
+        End Function
 
-End Class
+        Public ReadOnly Property Action As PerformableAction
+            Get
+                Return _pa
+            End Get
+        End Property
+
+    End Class
+
+End Namespace

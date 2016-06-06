@@ -1,8 +1,8 @@
 ﻿Namespace GameEngine.CharacterMovement
 
-    Public Interface IRanksAvalibleForPlacementDeterminer
+    Public Interface IRanksAvailableForPlacementDeterminer
 
-        Function GetAvalibleRanksForPlacement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer)
+        Function GetAvailableRanksForMovement(cc As CardCollection, ci As CardInstance, range As Integer) As List(Of Integer)
 
     End Interface
 

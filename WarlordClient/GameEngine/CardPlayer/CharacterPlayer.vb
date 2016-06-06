@@ -6,12 +6,12 @@ Namespace GameEngine.CardPlayer
         Implements ICardPlayer
 
         Private ReadOnly _sc As SmallCard
-        Private ReadOnly _ge As IUserInterfaceManipulator
+        Private ReadOnly _uim As UserInterfaceManipulator
         Private ReadOnly _gs As GameState
 
-        Public Sub New(sc As SmallCard, ge As GameEngine, gs As GameState)
+        Public Sub New(sc As SmallCard, gs As GameState)
             _sc = sc
-            _ge = ge
+            _uim = GameEngineObjects.UserInterfaceManipulator
             _gs = gs
         End Sub
 
@@ -20,20 +20,20 @@ Namespace GameEngine.CardPlayer
         End Sub
 
         Private Sub CreateDialog()
-            Dim cpd As New CharacterPlacementDialog(_ge,
+            Dim cpd As New CharacterPlacementDialog(_uim,
                                                     _sc,
                                                     _gs.GetCollectionById(_gs.GetOwnerOfCardInstance(_sc.Card)),
                                                     -1,
                                                     PlacementChoice.PlacementTypeEnum.PlayFromHand,
                                                     New PlayFromHandRankDeterminer,
-                                                    New StandardPlacementButtonConfiguration(_ge),
+                                                    New StandardPlacementButtonConfiguration(AddressOf _uim.CleanContextSensitiveVisuals),
                                                     New PlayFromHandInfoBoxTextGenerator)
-            AddHandler cpd.PlacementChoicesAvalible, AddressOf PlacementChoicesAvalible
+            AddHandler cpd.PlacementChoicesAvailable, AddressOf PlacementChoicesAvailable
             cpd.ChooseLocationForPlacement()
         End Sub
 
-        Private Sub PlacementChoicesAvalible(sc As SmallCard, mcs As List(Of PlacementChoice))
-            _ge.DrawPlacementDotsToCardGrid(_gs.GetOwnerOfCardInstance(sc.Card), sc, mcs, AddressOf PlayCharacter)
+        Private Sub PlacementChoicesAvailable(sc As SmallCard, mcs As List(Of PlacementChoice))
+            _uim.DrawPlacementDotsToCardGrid(_gs.GetOwnerOfCardInstance(sc.Card), sc, mcs, AddressOf PlayCharacter)
         End Sub
 
         Private Sub PlayCharacter(sc As SmallCard, pc As PlacementChoice)

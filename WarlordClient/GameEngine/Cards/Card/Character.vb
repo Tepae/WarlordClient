@@ -3,6 +3,7 @@ Imports WarlordClient.GameEngine.ClickFilter
 Imports WarlordClient.GameEngine.CostAndEffect
 Imports WarlordClient.GameEngine.CostAndEffect.Cost
 Imports WarlordClient.GameEngine.CostAndEffect.Effect
+Imports MoveCharacter = WarlordClient.GameEngine.Order.MoveCharacter
 
 Namespace GameEngine.Card
 
@@ -68,7 +69,7 @@ Namespace GameEngine.Card
 
         Private Sub AddPerformableActions()
             If CanSpendToMoveForward() Or CanSpendToMoveBackward() Then
-                Me.Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacter(1)}))
+                Me.Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacterEffect(1)}))
             End If
             If GetMeleeStrikes().Count > 0 Then
                 Me.Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect)))

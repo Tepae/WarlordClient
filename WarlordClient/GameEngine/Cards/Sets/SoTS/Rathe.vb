@@ -2,6 +2,7 @@
 Imports WarlordClient.GameEngine.CostAndEffect
 Imports WarlordClient.GameEngine.CostAndEffect.Cost
 Imports WarlordClient.GameEngine.CostAndEffect.Effect
+Imports MoveCharacter = WarlordClient.GameEngine.Order.MoveCharacter
 
 Namespace GameEngine
 
@@ -32,7 +33,7 @@ Namespace GameEngine
         End Function
 
         Public Overrides Function GetOtherActions() As List(Of PerformableAction)
-            Return New List(Of PerformableAction) From {New PerformableAction("Discard card to move", New List(Of ICost) From {New DiscardCards(1)}, New List(Of IEffect) From {New MoveCharacter(1)})}
+            Return New List(Of PerformableAction) From {New PerformableAction("Discard card to move", New List(Of ICost) From {New DiscardCards(1)}, New List(Of IEffect) From {New MoveCharacterEffect(1)})}
         End Function
 
     End Class

@@ -2,19 +2,19 @@
 
     Public Class CharacterPlacementDialog
 
-        Private ReadOnly _ge As IUserInterfaceManipulator
+        Private ReadOnly _uim As UserInterfaceManipulator
         Private ReadOnly _sc As SmallCard
         Private ReadOnly _range As Integer
         Private ReadOnly _type As PlacementChoice.PlacementTypeEnum
-        Private ReadOnly _rankDeterminer As IRanksAvalibleForPlacementDeterminer
+        Private ReadOnly _rankDeterminer As IRanksAvailableForPlacementDeterminer
         Private ReadOnly _buttonConfiguration As ButtonConfiguration
         Private ReadOnly _infoBoxTextGenerator As IInfoBoxTextGenerator
         Private ReadOnly _cardCollectionToPlaceCharacter As CardCollection
 
-        Public Event PlacementChoicesAvalible(sc As SmallCard, mcs As List(Of PlacementChoice))
+        Public Event PlacementChoicesAvailable(sc As SmallCard, mcs As List(Of PlacementChoice))
 
-        Public Sub New(ge As IUserInterfaceManipulator, sc As SmallCard, cardCollectionToPlaceCharacter As CardCollection, range As Integer, type As PlacementChoice.PlacementTypeEnum, rankDeterminer As IRanksAvalibleForPlacementDeterminer, buttonConfiguration As ButtonConfiguration, infoBoxTextGenerator As IInfoBoxTextGenerator)
-            _ge = ge
+        Public Sub New(uim As UserInterfaceManipulator, sc As SmallCard, cardCollectionToPlaceCharacter As CardCollection, range As Integer, type As PlacementChoice.PlacementTypeEnum, rankDeterminer As IRanksAvailableForPlacementDeterminer, buttonConfiguration As ButtonConfiguration, infoBoxTextGenerator As IInfoBoxTextGenerator)
+            _uim = uim
             _sc = sc
             _cardCollectionToPlaceCharacter = cardCollectionToPlaceCharacter
             _range = range
@@ -31,25 +31,25 @@
         End Sub
 
         Private Sub DisableAllOtherUserInput()
-            _ge.SetInactiveFilterForPlayer()
+            _uim.SetInactiveFilterForPlayer()
         End Sub
 
         Private Sub SetInfoBox()
             Dim data As New InfoboxData(_infoBoxTextGenerator.GetText(_sc.Card), _buttonConfiguration)
-            _ge.SetInfoBox(data)
+            _uim.SetInfoBox(data)
         End Sub
 
         Private Function GetPossiblePlacementChoices() As List(Of PlacementChoice)
             Dim ret As New List(Of PlacementChoice)
-            Dim ranks As List(Of Integer) = GetAvalibleRanksForPlacement()
+            Dim ranks As List(Of Integer) = GetAvailableRanksForPlacement()
             For Each rank As Integer In ranks
                 ret.AddRange(GetPlacementChoices(rank, _sc.Card))
             Next
             Return ret
         End Function
 
-        Private Function GetAvalibleRanksForPlacement() As List(Of Integer)
-            Return _rankDeterminer.GetAvalibleRanksForPlacement(_cardCollectionToPlaceCharacter, _sc.Card, _range)
+        Private Function GetAvailableRanksForPlacement() As List(Of Integer)
+            Return _rankDeterminer.GetAvailableRanksForMovement(_cardCollectionToPlaceCharacter, _sc.Card, _range)
         End Function
 
         Private Function GetPlacementChoices(rank As Integer, c As CardInstance) As List(Of PlacementChoice)
@@ -73,7 +73,7 @@
         End Function
 
         Private Sub SetupForPlayerInputForPlacement(mcs As List(Of PlacementChoice))
-            RaiseEvent PlacementChoicesAvalible(_sc, mcs)
+            RaiseEvent PlacementChoicesAvailable(_sc, mcs)
         End Sub
 
     End Class

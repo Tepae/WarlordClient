@@ -9,7 +9,8 @@ Namespace GameEngine.CostAndEffect
         Implements IListener
 
         Private ReadOnly _gs As GameState
-        Private ReadOnly _uim As GameEngine
+        Private ReadOnly _gfc As GameFlowController
+        Private ReadOnly _uim As UserInterfaceManipulator
         Private _costs As List(Of ICost)
         Private _effects As List(Of IEffect)
         Private _sc As SmallCard
@@ -17,9 +18,10 @@ Namespace GameEngine.CostAndEffect
         Private _costId As Guid
         Private _effectId As Guid
 
-        Public Sub New(gs As GameState, uim As GameEngine)
+        Public Sub New(gs As GameState, gfc As GameFlowController)
             _gs = gs
-            _uim = uim
+            _gfc = gfc
+            _uim = GameEngineObjects.UserInterfaceManipulator
         End Sub
 
         Public Sub PayCostsToGetEffects(action As PerformableAction, sc As SmallCard)
@@ -35,7 +37,7 @@ Namespace GameEngine.CostAndEffect
             If Not cost Is Nothing Then
                 _costId = Guid.NewGuid()
                 EventNotifier.EventNotifier.Register(_costId, Me, True)
-                cost.Pay(_costId, _sc, _owner, _uim, _gs)
+                cost.Pay(_costId, _sc, _owner, _gs)
             Else
                 PlayNextEffect()
             End If
@@ -56,7 +58,7 @@ Namespace GameEngine.CostAndEffect
             If Not effect Is Nothing Then
                 _effectId = Guid.NewGuid()
                 EventNotifier.EventNotifier.Register(_effectId, Me, True)
-                effect.Perform(_effectId, _owner, _sc, _gs, _uim, IsLastEffectInList(effect), AddressOf Cancel)
+                effect.Perform(_effectId, _owner, _sc, _gs, IsLastEffectInList(effect), AddressOf Cancel)
             End If
         End Sub
 
@@ -76,7 +78,7 @@ Namespace GameEngine.CostAndEffect
 
         Public Sub Cancel()
             For Each cost As ICost In _costs
-                cost.Refund(_costId, _sc, _owner, _uim, _gs)
+                cost.Refund(_costId, _sc, _owner, _gs)
             Next
             For Each effect As IEffect In _effects
                 effect.Cancel()

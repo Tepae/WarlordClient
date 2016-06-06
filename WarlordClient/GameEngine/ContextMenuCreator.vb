@@ -1,6 +1,6 @@
-﻿Imports WarlordClient.GameEngine.Card
-Imports WarlordClient.GameEngine.Cards.Card
+﻿Imports WarlordClient.GameEngine.Cards.Card
 Imports WarlordClient.GameEngine.CostAndEffect
+Imports WarlordClient.Graphics
 
 Namespace GameEngine
 
@@ -8,11 +8,13 @@ Namespace GameEngine
 
         Private ReadOnly _gs As GameState
         Private ReadOnly _ge As GameEngine
+        Private ReadOnly _gfc As GameFlowController
         Private _sc As SmallCard
 
-        Public Sub New(gs As GameState, ge As GameEngine)
+        Public Sub New(gs As GameState, ge As GameEngine, gfc As GameFlowController)
             _gs = gs
             _ge = ge
+            _gfc = gfc
         End Sub
 
         Public Sub CreateContextMenu(sc As SmallCard, x As Integer, y As Integer)
@@ -21,6 +23,9 @@ Namespace GameEngine
             For Each pa As PerformableAction In sc.Card.Card.GetPerformableActions
                 Dim item = New PerformableActionToolStripMenuItem(pa)
                 cm.Items.Add(item)
+                If Not pa.CanPayCosts(_sc, _gs.GetOwnerOfCardInstance(_sc.Card), _gs) Then
+                    item.Enabled = False
+                End If
             Next
             SetEventHandlers(cm)
             cm.Show(sc, x, y)
@@ -32,7 +37,7 @@ Namespace GameEngine
         End Sub
 
         Private Sub ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs)
-            Dim cmep As New CostManagerEffectPerformer(_gs, _ge)
+            Dim cmep As New CostManagerEffectPerformer(_gs, _gfc)
             cmep.PayCostsToGetEffects(DirectCast(e.ClickedItem, PerformableActionToolStripMenuItem).Action, _sc)
         End Sub
 

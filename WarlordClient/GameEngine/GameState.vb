@@ -35,9 +35,9 @@ Namespace GameEngine
             AddCharacterToRankInPlace(owner, ci, pc.Rank, place, False)
         End Sub
 
-        Public Sub MoveCharacter(owner As Guid, c As CardInstance, mc As PlacementChoice)
+        Public Sub MoveCharacter(owner As Guid, c As CardInstance, pc As PlacementChoice)
             Dim cc As CardCollection = GetCollectionById(owner)
-            cc.MoveCharacter(c, mc)
+            cc.MoveCharacter(c, pc)
             RaiseEvent CardCollectionChanged(cc)
         End Sub
 

@@ -5,7 +5,7 @@
 
         Private _paid As Boolean = False
 
-        Public Sub Pay(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, uim As IUserInterfaceManipulator, gs As GameState) Implements ICost.Pay
+        Public Sub Pay(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, gs As GameState) Implements ICost.Pay
             If CanPay(sourceCard, ownerOfCard, gs) Then
                 sourceCard.Card.CardState = CardInstance.State.Spent
                 _paid = True
@@ -13,7 +13,7 @@
             End If
         End Sub
 
-        Public Sub Refund(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, uim As IUserInterfaceManipulator, gs As GameState) Implements ICost.Refund
+        Public Sub Refund(id As Guid, sourceCard As SmallCard, ownerOfCard As Guid, gs As GameState) Implements ICost.Refund
             If Paid() Then
                 sourceCard.Card.CardState = CardInstance.State.Ready
                 _paid = False

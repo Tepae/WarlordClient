@@ -8,6 +8,7 @@ Namespace GameEngine
 
     Public Class GameEngine
         Implements IUserInterfaceManipulator
+        Implements IGameEngineGameFlowController
 
 #Region "members"
 
@@ -16,6 +17,8 @@ Namespace GameEngine
         Private WithEvents _gameState As GameState
         Private _localPlayer As Player
         Private _cardPlayerFactory As CardPlayerFactory
+        Private _uim As UserInterfaceManipulator
+        Private _gfc As GameFlowController
 
         Public Event CardCollectionChanged(cc As CardCollection)
         Public Event ActivePlayerSet(plr As Player, isLocal As Boolean)
@@ -39,6 +42,7 @@ Namespace GameEngine
             _deckManager = New DeckManager
             _gameState = New GameState
             Players = New PlayerList
+            GameEngineObjects.Register(Me)
         End Sub
 
 #End Region
@@ -92,7 +96,7 @@ Namespace GameEngine
 #Region "movement"
 
         Public Sub MoveCharacter(sc As SmallCard, range As Integer)
-            '  MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForStandardMovement(Me, sc, CardCollectionOfCardInstance(sc.Card), range))
+            '  MoveCharacterEffect(CharacterPlacementDialogFactory.CreateDialogForStandardMovement(Me, sc, CardCollectionOfCardInstance(sc.Card), range))
         End Sub
 
         Private Sub MoveCharacter(dialog As CharacterPlacementDialog)
@@ -131,7 +135,7 @@ Namespace GameEngine
         End Sub
 
         Private Sub CharacterToFallForwardChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            '   MoveCharacter(CharacterPlacementDialogFactory.CreateDialogForIllegalRank(Me, sc, CardCollectionOfCardInstance(sc.Card), Guid.NewGuid()))
+            '   MoveCharacterEffect(CharacterPlacementDialogFactory.CreateDialogForIllegalRank(Me, sc, CardCollectionOfCardInstance(sc.Card), Guid.NewGuid()))
         End Sub
 
 #End Region
@@ -166,12 +170,12 @@ Namespace GameEngine
 
 #End Region
 
-        Public Sub StartGame()
+        Private Sub StartGame() Implements IGameEngineGameFlowController.StartGame
             RaiseEvent GameStarting()
             NewTurn()
         End Sub
 
-        Public Sub NewRound()
+        Private Sub NewRound() Implements IGameEngineGameFlowController.NewRound
             NewTurn()
         End Sub
 
@@ -191,7 +195,7 @@ Namespace GameEngine
             Next
         End Sub
 
-        Public Sub PassTurn()
+        Public Sub PassTurn() Implements IGameEngineGameFlowController.PassTurn
             Server.PlayerEndsTurn(LocalPlayer.Id, False)
         End Sub
 
@@ -199,17 +203,21 @@ Namespace GameEngine
             Server.PlayerEndsTurn(LocalPlayer.Id, True)
         End Sub
 
-        Public Function StateBasedEffectsAllowForTurnToBePassed()
+        Public Function StateBasedEffectsAllowForTurnToBePassed() As Boolean Implements IGameEngineGameFlowController.StateBasedEffectsAllowForTurnToBePassed
             Return (CheckDeadCharacters() AndAlso CheckForLoss() AndAlso CheckIllegalRanks())
         End Function
 
+        Private Sub HandleStateBasedEffects(callingId As Guid) Implements IGameEngineGameFlowController.HandleStateBasedEffects
+
+        End Sub
+
         Private Function CheckDeadCharacters()
-            Dim deadCharacters As List(Of CardInstance) = (New DeadCharacterChecker).GetDeadCharacters(Me, Players)
-            For Each ci As CardInstance In deadCharacters
-                GameState.PutCardIntoDiscardPile(ci)
-                RaiseSystemMessage(String.Format("{0} dies", ci.Card.Name))
-            Next
-            Return True
+            'Dim deadCharacters As List(Of CardInstance) = (New DeadCharacterChecker).GetDeadCharacters(Me, Players)
+            'For Each ci As CardInstance In deadCharacters
+            '    GameState.PutCardIntoDiscardPile(ci)
+            '    RaiseSystemMessage(String.Format("{0} dies", ci.Card.Name))
+            'Next
+            Return (New DeadCharacterChecker).GetDeadCharacters(Me, Players).Count = 0
         End Function
 
         Private Function CheckForLoss()
@@ -221,7 +229,7 @@ Namespace GameEngine
             For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
                 Dim rank As Integer = GameState.GetFirstIllegalRank(plr.Id)
                 If rank > 0 Then
-                    PromptPlayerToFixIllegalRank(rank, plr)
+                    ' PromptPlayerToFixIllegalRank(rank, plr)
                     ret = False
                     Exit For
                 End If
@@ -235,7 +243,7 @@ Namespace GameEngine
             Next
         End Sub
 
-        Public Sub CancelAction()
+        Public Sub CancelAction() Implements IGameEngineGameFlowController.CancelAction
             SetActiveFilterForPlayer()
             SetInfoboxToDefault()
         End Sub
@@ -295,12 +303,8 @@ Namespace GameEngine
             RaiseEvent SystemMessage(txt)
         End Sub
 
-        Public Function CardCollectionOfCardInstance(ci As CardInstance) As CardCollection
-            Return _gameState.ThisCardInstanceBelongsToCardCollection(ci)
-        End Function
-
         Public Function GetContextMenuCreator() As ContextMenuCreator
-            Return New ContextMenuCreator(GameState, Me)
+            Return New ContextMenuCreator(GameState, Me, GameFlowController)
         End Function
 
         Public Sub CleanContextSensitiveVisuals() Implements IUserInterfaceManipulator.CleanContextSensitiveVisuals
@@ -376,6 +380,24 @@ Namespace GameEngine
                     _cardPlayerFactory = New CardPlayerFactory
                 End If
                 Return _cardPlayerFactory
+            End Get
+        End Property
+
+        Public ReadOnly Property UserInterfaceManipulator As UserInterfaceManipulator
+            Get
+                If _uim Is Nothing Then
+                    _uim = New UserInterfaceManipulator(Me)
+                End If
+                Return _uim
+            End Get
+        End Property
+
+        Public ReadOnly Property GameFlowController As GameFlowController
+            Get
+                If _gfc Is Nothing Then
+                    _gfc = New GameFlowController(Me)
+                End If
+                Return _gfc
             End Get
         End Property
 
