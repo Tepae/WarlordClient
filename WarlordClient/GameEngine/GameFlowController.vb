@@ -24,10 +24,6 @@
             _ge.CancelAction()
         End Sub
 
-        Public Sub HandleStateBasedEffects(callingId As Guid)
-            _ge.HandleStateBasedEffects(callingId)
-        End Sub
-
         Public Function StateBasedEffectsAllowForTurnToBePassed() As Boolean
             Return _ge.StateBasedEffectsAllowForTurnToBePassed()
         End Function

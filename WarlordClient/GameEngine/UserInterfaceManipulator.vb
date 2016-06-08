@@ -4,9 +4,9 @@ Namespace GameEngine
 
     Public Class UserInterfaceManipulator
 
-        Private ReadOnly _ge As IUserInterfaceManipulator
+        Private ReadOnly _ge As IGameEngineUserInterfaceManipulator
 
-        Public Sub New(ge As IUserInterfaceManipulator)
+        Public Sub New(ge As IGameEngineUserInterfaceManipulator)
             _ge = ge
         End Sub
 
@@ -40,6 +40,10 @@ Namespace GameEngine
 
         Public Sub CleanContextSensitiveVisuals()
             _ge.CleanContextSensitiveVisuals()
+        End Sub
+
+        Public Sub RaiseSystemMessage(message As String)
+            _ge.RaiseSystemMessage(message)
         End Sub
 
     End Class

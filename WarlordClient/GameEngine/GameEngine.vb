@@ -3,12 +3,15 @@ Imports WarlordClient.GameEngine.ClickFilter.ClickFilterManager
 Imports WarlordClient.GameEngine.CharacterMovement
 Imports WarlordClient.GameEngine.Hand
 Imports WarlordClient.GameEngine.CardPlayer
+Imports WarlordClient.GameEngine.Order
+Imports WarlordClient.GameEngine.StateBasedEffects
 
 Namespace GameEngine
 
     Public Class GameEngine
-        Implements IUserInterfaceManipulator
+        Implements IGameEngineUserInterfaceManipulator
         Implements IGameEngineGameFlowController
+        Implements IGameEngineStateBasedEffectsFixer
 
 #Region "members"
 
@@ -93,36 +96,12 @@ Namespace GameEngine
 
 #Region "game"
 
-#Region "movement"
-
-        Public Sub MoveCharacter(sc As SmallCard, range As Integer)
-            '  MoveCharacterEffect(CharacterPlacementDialogFactory.CreateDialogForStandardMovement(Me, sc, CardCollectionOfCardInstance(sc.Card), range))
-        End Sub
-
-        Private Sub MoveCharacter(dialog As CharacterPlacementDialog)
-
-        End Sub
-
-        Public Sub CancelMove()
-            ClearMovementSettings()
-        End Sub
-
-        Public Sub ClearMovementSettings()
-            SetActiveFilterForPlayer()
-            SetInfoboxToDefault()
-            For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
-                ClearPlacementDotsFromCardGrid(plr.Id)
-            Next
-        End Sub
-
-#End Region
-
 #Region "illegal rank"
 
         Private Sub PromptPlayerToFixIllegalRank(rank As Integer, plr As Player)
             RaiseSystemMessage(String.Format("Player {0} has an illegal rank: {1}", plr.Name, rank.ToString))
-            SetClickFilterForIllegalRank(rank, plr)
             SetInfoBox(New InfoboxData(String.Format("Select a character to fall forward from rank {0}", rank.ToString), New NoUserInputButtonConfiguration))
+            SetClickFilterForIllegalRank(rank, plr)
         End Sub
 
         Private Sub SetClickFilterForIllegalRank(rank As Integer, plr As Player)
@@ -135,21 +114,8 @@ Namespace GameEngine
         End Sub
 
         Private Sub CharacterToFallForwardChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            '   MoveCharacterEffect(CharacterPlacementDialogFactory.CreateDialogForIllegalRank(Me, sc, CardCollectionOfCardInstance(sc.Card), Guid.NewGuid()))
-        End Sub
-
-#End Region
-
-#Region "perform strike"
-
-        Public Sub PerformGenericMeleeStrike(sc As SmallCard)
-            Dim sp As New Strike.StrikePerformerCreator()
-            sp.PerformGenericMeleeStrike(Me, sc)
-        End Sub
-
-        Public Sub PerformGenericRangedStrike(sc As SmallCard)
-            Dim sp As New Strike.StrikePerformerCreator
-            sp.PerformGenericRangedStrike(Me, sc)
+            Dim cm As New CharacterMover(New Guid, GameState, CharacterPlacementDialogFactory.CreateDialogForIllegalRank(sc, GameState.GetCollectionById(GameState.GetOwnerOfCardInstance(sc.Card)), AddressOf CheckIllegalRanks), True)
+            cm.MoveCharacter()
         End Sub
 
 #End Region
@@ -204,32 +170,28 @@ Namespace GameEngine
         End Sub
 
         Public Function StateBasedEffectsAllowForTurnToBePassed() As Boolean Implements IGameEngineGameFlowController.StateBasedEffectsAllowForTurnToBePassed
-            Return (CheckDeadCharacters() AndAlso CheckForLoss() AndAlso CheckIllegalRanks())
+            Return (New StateBasedEffectsFixer(Me)).StateBasedEffectsAllowForTurnToBePassed()
         End Function
 
-        Private Sub HandleStateBasedEffects(callingId As Guid) Implements IGameEngineGameFlowController.HandleStateBasedEffects
-
-        End Sub
-
-        Private Function CheckDeadCharacters()
-            'Dim deadCharacters As List(Of CardInstance) = (New DeadCharacterChecker).GetDeadCharacters(Me, Players)
-            'For Each ci As CardInstance In deadCharacters
-            '    GameState.PutCardIntoDiscardPile(ci)
-            '    RaiseSystemMessage(String.Format("{0} dies", ci.Card.Name))
-            'Next
-            Return (New DeadCharacterChecker).GetDeadCharacters(Me, Players).Count = 0
-        End Function
-
-        Private Function CheckForLoss()
+        Private Function CheckForDeadCharacters() As Boolean Implements IGameEngineStateBasedEffectsFixer.CheckForDeadCharacters
+            Dim deadCharacters As List(Of CardInstance) = (New DeadCharacterChecker).GetDeadCharacters(Me, Players)
+            For Each ci As CardInstance In deadCharacters
+                GameState.PutCardIntoDiscardPile(ci)
+                RaiseSystemMessage(String.Format("{0} dies", ci.Card.Name))
+            Next
             Return True
         End Function
 
-        Public Function CheckIllegalRanks() As Boolean
+        Private Function CheckForPlayerLoss() As Boolean Implements IGameEngineStateBasedEffectsFixer.CheckForPlayerLoss
+            Return True
+        End Function
+
+        Public Function CheckIllegalRanks() As Boolean Implements IGameEngineStateBasedEffectsFixer.CheckIllegalRanks
             Dim ret = True
             For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
                 Dim rank As Integer = GameState.GetFirstIllegalRank(plr.Id)
                 If rank > 0 Then
-                    ' PromptPlayerToFixIllegalRank(rank, plr)
+                    PromptPlayerToFixIllegalRank(rank, plr)
                     ret = False
                     Exit For
                 End If
@@ -299,15 +261,11 @@ Namespace GameEngine
             RaiseEvent CardCollectionChanged(cc)
         End Sub
 
-        Public Sub RaiseSystemMessage(txt As String)
-            RaiseEvent SystemMessage(txt)
-        End Sub
-
         Public Function GetContextMenuCreator() As ContextMenuCreator
             Return New ContextMenuCreator(GameState, Me, GameFlowController)
         End Function
 
-        Public Sub CleanContextSensitiveVisuals() Implements IUserInterfaceManipulator.CleanContextSensitiveVisuals
+        Public Sub CleanContextSensitiveVisuals() Implements IGameEngineUserInterfaceManipulator.CleanContextSensitiveVisuals
             For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
                 ClearPlacementDotsFromCardGrid(plr.Id)
             Next
@@ -319,33 +277,38 @@ Namespace GameEngine
 
 #Region "mainform"
 
-        Public Sub SetActiveFilterForPlayer() Implements IUserInterfaceManipulator.SetActiveFilterForPlayer
+        Public Sub SetActiveFilterForPlayer() Implements IGameEngineUserInterfaceManipulator.SetActiveFilterForPlayer
             RaiseEvent SetActiveFilter()
         End Sub
 
-        Public Sub SetInactiveFilterForPlayer() Implements IUserInterfaceManipulator.SetInactiveFilterForPlayer
+        Public Sub SetInactiveFilterForPlayer() Implements IGameEngineUserInterfaceManipulator.SetInactiveFilterForPlayer
             RaiseEvent SetInactiveFilter()
         End Sub
 
-        Public Sub SetFilterForPlayer(cf As ClickFilter.ClickFilter, cb As ClickFilter.ClickFilterManager.Callback) Implements IUserInterfaceManipulator.SetFilterForPlayer
+        Public Sub SetFilterForPlayer(cf As ClickFilter.ClickFilter, cb As ClickFilter.ClickFilterManager.Callback) Implements IGameEngineUserInterfaceManipulator.SetFilterForPlayer
             RaiseEvent SetFilter(cf, cb)
         End Sub
 
-        Public Sub SetInfoBox(data As InfoboxData) Implements IUserInterfaceManipulator.SetInfoBox
+        Public Sub SetInfoBox(data As InfoboxData) Implements IGameEngineUserInterfaceManipulator.SetInfoBox
             RaiseEvent SetInfoboxData(data)
         End Sub
 
-        Public Sub SetInfoboxToDefault() Implements IUserInterfaceManipulator.SetInfoboxToDefault
+        Public Sub SetInfoboxToDefault() Implements IGameEngineUserInterfaceManipulator.SetInfoboxToDefault
             RaiseEvent SetDefaultInfoboxData()
         End Sub
 
-        Public Sub DrawPlacementDotsToCardGrid(id As Guid, sc As SmallCard, movementChoices As List(Of PlacementChoice), callback As Action(Of SmallCard, PlacementChoice)) Implements IUserInterfaceManipulator.DrawPlacementDotsToCardGrid
+        Public Sub DrawPlacementDotsToCardGrid(id As Guid, sc As SmallCard, movementChoices As List(Of PlacementChoice), callback As Action(Of SmallCard, PlacementChoice)) Implements IGameEngineUserInterfaceManipulator.DrawPlacementDotsToCardGrid
             RaiseEvent DrawPlacementDots(id, sc, movementChoices, callback)
         End Sub
 
-        Public Sub ClearPlacementDotsFromCardGrid(id As Guid) Implements IUserInterfaceManipulator.ClearPlacementDotsFromCardGrid
+        Public Sub ClearPlacementDotsFromCardGrid(id As Guid) Implements IGameEngineUserInterfaceManipulator.ClearPlacementDotsFromCardGrid
             RaiseEvent ClearPlacementDots(id)
         End Sub
+
+        Public Sub RaiseSystemMessage(txt As String) Implements IGameEngineUserInterfaceManipulator.RaiseSystemMessage
+            RaiseEvent SystemMessage(txt)
+        End Sub
+
 
 #End Region
 

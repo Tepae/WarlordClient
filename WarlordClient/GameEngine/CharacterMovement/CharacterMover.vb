@@ -10,7 +10,6 @@ Namespace GameEngine.CharacterMovement
         Private ReadOnly _uim As UserInterfaceManipulator
         Private WithEvents _cpd As CharacterPlacementDialog
         Private ReadOnly _passTurn As Boolean
-        Private ReadOnly _cancelAction As Action
         Private _owner As Guid
 
         Public Sub New(id As Guid, gs As GameState, cpd As CharacterPlacementDialog, passTurn As Boolean)
@@ -33,8 +32,14 @@ Namespace GameEngine.CharacterMovement
 
         Private Sub LocationChosen(sc As SmallCard, placementChoice As PlacementChoice)
             Dim op As New OrderPerformer(_owner, _gs, _gfc)
-            op.Perform(New MoveCharacter(_id, sc, placementChoice), _passTurn)
-            _uim.CleanContextSensitiveVisuals()
+            Dim o As IOrder = Nothing
+            Select Case _cpd.PlacementType
+                Case PlacementChoice.PlacementTypeEnum.Regular
+                    o = New MoveCharacter(_id, sc, placementChoice)
+                Case PlacementChoice.PlacementTypeEnum.IllegalRank
+                    o = New ForceMoveCharacter(_id, sc, placementChoice)
+            End Select
+            op.Perform(o, _passTurn)
         End Sub
 
     End Class

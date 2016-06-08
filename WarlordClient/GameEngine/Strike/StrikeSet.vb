@@ -4,8 +4,8 @@
 
         Private _spend As Boolean
         Private _targetingType As TargetingTypeEnum
-        Private _strikes As List(Of Strike)
-        Private _strikeType As Strike.StrikeTypeEnum = Strike.StrikeTypeEnum.None
+        Private ReadOnly _strikes As List(Of Strike)
+        Private ReadOnly _strikeType As Strike.StrikeTypeEnum = Strike.StrikeTypeEnum.None
 
         Public Sub New(spend As Boolean, targetingType As TargetingTypeEnum, ByVal ParamArray strikes() As Strike)
             _spend = spend

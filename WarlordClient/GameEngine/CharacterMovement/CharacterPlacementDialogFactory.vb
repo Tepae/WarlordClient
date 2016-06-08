@@ -9,7 +9,7 @@
                                 range,
                                 PlacementChoice.PlacementTypeEnum.Regular,
                                 New StandardPlacementRankDeterminer,
-                                New StandardPlacementButtonConfiguration(cancelAction),
+                                New StandardUserInputNeededButtonConfiguration(cancelAction),
                                 New PlacementInfoBoxTextGenerator)
         End Function
 
@@ -29,7 +29,7 @@
                                 range,
                                 PlacementChoice.PlacementTypeEnum.Other,
                                 New StandardPlacementRankDeterminer,
-                                New StandardPlacementButtonConfiguration(cancelAction),
+                                New StandardUserInputNeededButtonConfiguration(cancelAction),
                                 New PlacementInfoBoxTextGenerator)
         End Function
 

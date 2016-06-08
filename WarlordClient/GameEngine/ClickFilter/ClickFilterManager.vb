@@ -6,8 +6,7 @@ Namespace GameEngine.ClickFilter
     Public Class ClickFilterManager
 
         Private _ge As GameEngine
-        Private _filters As New Stack(Of ClickFilter)
-        Private _cb As Callback
+        Private ReadOnly _filters As New Stack(Of ClickFilter)
 
         Public Delegate Sub Callback(sc As SmallCard, owner As Guid, btn As MouseButtons)
         Public Event LeftClickInHand(sender As Object, e As HandClickEventArgs)
@@ -95,21 +94,14 @@ Namespace GameEngine.ClickFilter
         End Sub
 
         Private Function GetFilterArguments(owner As Guid, ci As CardInstance)
-            Return New FilterArguments With {.Owner = owner, _
-                                             .Location = ci.CardLocation, _
-                                             .State = ci.CardState, _
-                                             .Rank = _ge.GameState.GetCollectionById(owner).RankAndPlaceOfCharacter(ci).Key, _
+            Return New FilterArguments With {.Owner = owner,
+                                             .Location = ci.CardLocation,
+                                             .State = ci.CardState,
+                                             .Rank = _ge.GameState.GetCollectionById(owner).RankAndPlaceOfCharacter(ci).Key,
                                              .Source = ci}
         End Function
 
         Private Property CallBackForClick As Callback
-            Get
-                Return _cb
-            End Get
-            Set(value As Callback)
-                _cb = value
-            End Set
-        End Property
 
     End Class
 

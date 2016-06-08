@@ -3,7 +3,6 @@
 Namespace GameEngine.Order
 
     Public Class OrderPerformer
-        Implements IListener
 
         Private ReadOnly _owner As Guid
         Private ReadOnly _gs As GameState
@@ -23,6 +22,7 @@ Namespace GameEngine.Order
             AllowBeforeResponses()
             o.Perform(_owner, _gs)
             AllowAfterResponses()
+            CleanInterface()
             PassTurnIfAble()
         End Sub
 
@@ -52,20 +52,15 @@ Namespace GameEngine.Order
 
         End Sub
 
+        Private Sub CleanInterface()
+            GameEngineObjects.UserInterfaceManipulator.CleanContextSensitiveVisuals()
+        End Sub
+
         Private Sub PassTurnIfAble()
             If _passTurn Then
                 If _gfc.StateBasedEffectsAllowForTurnToBePassed() Then
                     _gfc.PassTurn()
-                Else
-                    EventNotifier.EventNotifier.Register(_id, Me, True)
-                    _gfc.HandleStateBasedEffects(_id)
                 End If
-            End If
-        End Sub
-
-        Public Sub Notify(id As Guid, hasData As Boolean) Implements IListener.Notify
-            If id = _id Then
-                PassTurnIfAble()
             End If
         End Sub
 

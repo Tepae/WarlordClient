@@ -69,16 +69,16 @@ Namespace GameEngine.Card
 
         Private Sub AddPerformableActions()
             If CanSpendToMoveForward() Or CanSpendToMoveBackward() Then
-                Me.Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacterEffect(1)}))
+                Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacterEffect(1)}))
             End If
             If GetMeleeStrikes().Count > 0 Then
-                Me.Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect)))
+                Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New PerformStrikeEffect(GetMeleeStrikes())}))
             End If
             If GetRangedStrikes().Count > 0 Then
-                Me.Actions.Add(New PerformableAction(GetRangedStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect)))
+                Actions.Add(New PerformableAction(GetRangedStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New PerformStrikeEffect(GetRangedStrikes())}))
             End If
             For Each pa As PerformableAction In GetOtherActions()
-                Me.Actions.Add(pa)
+                Actions.Add(pa)
             Next
         End Sub
 

@@ -1,6 +1,6 @@
-﻿Namespace GameEngine.CharacterMovement
+﻿Namespace GameEngine
 
-    Public Class StandardPlacementButtonConfiguration
+    Public Class StandardUserInputNeededButtonConfiguration
         Inherits ButtonConfiguration
 
         Public Sub New(cancelAction As Action)

@@ -10,7 +10,7 @@ Namespace GameEngine.CostAndEffect
 
         Private ReadOnly _gs As GameState
         Private ReadOnly _gfc As GameFlowController
-        Private ReadOnly _uim As UserInterfaceManipulator
+        Private ReadOnly _uim As UserInterfaceManipulator = GameEngineObjects.UserInterfaceManipulator
         Private _costs As List(Of ICost)
         Private _effects As List(Of IEffect)
         Private _sc As SmallCard
@@ -83,6 +83,7 @@ Namespace GameEngine.CostAndEffect
             For Each effect As IEffect In _effects
                 effect.Cancel()
             Next
+            _uim.CleanContextSensitiveVisuals()
         End Sub
 
         Public Sub Notify(id As Guid, hasData As Boolean) Implements IListener.Notify

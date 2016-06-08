@@ -26,7 +26,7 @@ Namespace GameEngine.CardPlayer
                                                     -1,
                                                     PlacementChoice.PlacementTypeEnum.PlayFromHand,
                                                     New PlayFromHandRankDeterminer,
-                                                    New StandardPlacementButtonConfiguration(AddressOf _uim.CleanContextSensitiveVisuals),
+                                                    New StandardUserInputNeededButtonConfiguration(AddressOf _uim.CleanContextSensitiveVisuals),
                                                     New PlayFromHandInfoBoxTextGenerator)
             AddHandler cpd.PlacementChoicesAvailable, AddressOf PlacementChoicesAvailable
             cpd.ChooseLocationForPlacement()

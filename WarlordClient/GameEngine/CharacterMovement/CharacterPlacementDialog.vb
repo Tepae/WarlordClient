@@ -5,7 +5,6 @@
         Private ReadOnly _uim As UserInterfaceManipulator
         Private ReadOnly _sc As SmallCard
         Private ReadOnly _range As Integer
-        Private ReadOnly _type As PlacementChoice.PlacementTypeEnum
         Private ReadOnly _rankDeterminer As IRanksAvailableForPlacementDeterminer
         Private ReadOnly _buttonConfiguration As ButtonConfiguration
         Private ReadOnly _infoBoxTextGenerator As IInfoBoxTextGenerator
@@ -18,11 +17,13 @@
             _sc = sc
             _cardCollectionToPlaceCharacter = cardCollectionToPlaceCharacter
             _range = range
-            _type = type
+            PlacementType = type
             _rankDeterminer = rankDeterminer
             _buttonConfiguration = buttonConfiguration
             _infoBoxTextGenerator = infoBoxTextGenerator
         End Sub
+
+        Public Property PlacementType As PlacementChoice.PlacementTypeEnum
 
         Public Sub ChooseLocationForPlacement()
             DisableAllOtherUserInput()
@@ -60,14 +61,14 @@
                     Dim currentCard As CardInstance = charactersInRank(i)
                     Dim nextCard As CardInstance = If(i < charactersInRank.Count - 1, charactersInRank(i + 1), Nothing)
                     If i = 0 AndAlso Not currentCard.Id = c.Id Then
-                        ret.Add(New PlacementChoice(rank, Nothing, currentCard, _type))
+                        ret.Add(New PlacementChoice(rank, Nothing, currentCard, PlacementType))
                     End If
                     If Not currentCard.Id = c.Id AndAlso (nextCard Is Nothing OrElse Not nextCard.Id = c.Id) Then
-                        ret.Add(New PlacementChoice(rank, currentCard, nextCard, _type))
+                        ret.Add(New PlacementChoice(rank, currentCard, nextCard, PlacementType))
                     End If
                 Next
             ElseIf charactersInRank.Count = 0 Then
-                ret.Add(New PlacementChoice(rank, Nothing, Nothing, _type))
+                ret.Add(New PlacementChoice(rank, Nothing, Nothing, PlacementType))
             End If
             Return ret
         End Function

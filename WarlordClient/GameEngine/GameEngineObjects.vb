@@ -21,4 +21,4 @@
         End Property
 
     End Class
-End NameSpace
+End Namespace
