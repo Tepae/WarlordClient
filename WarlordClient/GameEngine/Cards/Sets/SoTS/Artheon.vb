@@ -1,24 +1,28 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
 
+' ReSharper disable once CheckNamespace
+Namespace GameEngine
+
+    ' ReSharper disable once UnusedMember.Global
     Public Class Artheon
-        Inherits Card.Character
+        Inherits WlCharacter
 
         Public Sub New()
 
             MyBase.New()
 
             'card
-            Me._name = "Artheon"
-            Me._imagePath = "\images\SotS\artheon.jpg"
-            Me._level = 2
-            Me._classes.Add([Class].Wizard)
-            'character
-            Me.Races.Add(RaceEnum.Elf)
-            Me.ArmorClass = 10
-            Me.Skill = 3
-            Me._hitPoints = 1
-            Me.Alignment = AlignmentEnum.Evil
-            Me.FlavorTraits.Add("Syneri")
+            _name = "Artheon"
+            _imagePath = "\images\SotS\artheon.jpg"
+            _level = 2
+            _classes.Add(ClassEnum.Wizard)
+            'WlCharacter
+            Races.Add(RaceEnum.Elf)
+            ArmorClass = 10
+            Skill = 3
+            _hitPoints = 1
+            Alignment = AlignmentEnum.Evil
+            FlavorTraits.Add("Syneri")
 
         End Sub
 

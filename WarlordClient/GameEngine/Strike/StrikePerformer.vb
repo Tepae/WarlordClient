@@ -1,4 +1,5 @@
-﻿Imports WarlordClient.GameEngine.Order
+﻿Imports WarlordClient.GameEngine.Cards.Card
+Imports WarlordClient.GameEngine.Order
 
 Namespace GameEngine.Strike
 
@@ -33,7 +34,14 @@ Namespace GameEngine.Strike
         End Sub
 
         Private Sub SetFilter()
-            _uim.SetFilterForPlayer(DirectCast(_source.Card.Card, Card.Character).GetFilterForMeleeStrike(), AddressOf TargetChosen)
+            Select Case _s.StrikeType
+                Case Strike.StrikeTypeEnum.Melee
+                    _uim.SetFilterForPlayer(DirectCast(_source.Card.Card, WlCharacter).GetFilterForMeleeStrike(), AddressOf TargetChosen)
+                Case Strike.StrikeTypeEnum.Ranged
+                    _uim.SetFilterForPlayer(DirectCast(_source.Card.Card, WlCharacter).GetFilterForRangedStrike(), AddressOf TargetChosen)
+                Case Strike.StrikeTypeEnum.Special
+                    _uim.SetFilterForPlayer(_s.Filter, AddressOf TargetChosen)
+            End Select
         End Sub
 
         Private Sub SetInfoBox()
@@ -46,9 +54,8 @@ Namespace GameEngine.Strike
         End Sub
 
         Private Sub TargetChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            Dim op As New OrderPerformer(_owner, _gs, GameEngineObjects.GameFlowController)
-            op.Perform(New PerformStrike(_id, _source, sc, _s), _isLast)
-            _nextStrike.Invoke()
+            Dim op As New OrderPerformer(_owner, _gs)
+            op.Perform(New PerformStrike(_id, _source, sc, _s), _isLast, _nextStrike)
         End Sub
 
     End Class

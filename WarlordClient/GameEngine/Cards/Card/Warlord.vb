@@ -1,7 +1,11 @@
-﻿Namespace GameEngine.Card
+﻿Namespace GameEngine.Cards.Card
 
     Public MustInherit Class Warlord
-        Inherits Character
+        Inherits WlCharacter
+
+        Public Sub New()
+            MyBase.New
+        End Sub
 
         Public Overridable Function StartingRanks() As List(Of StartingRank)
             Return GetDefaultStartingRanks()
@@ -11,10 +15,10 @@
             Return Constants.WarlordDefaultStartingRank
         End Function
 
-        Public Function CharacterCanStartInMyArmy(c As Character) As Boolean
-            Dim ret As Boolean = False
+        Public Function CharacterCanStartInMyArmy(ch As WlCharacter) As Boolean
+            Dim ret = False
             For Each sr As StartingRank In StartingRanks()
-                If CharacterMatchesAnyStartingRankCharacterDescription(c, sr.Traits) Then
+                If CharacterMatchesAnyStartingRankCharacterDescription(ch, sr.Traits) Then
                     ret = True
                     Exit For
                 End If
@@ -22,12 +26,12 @@
             Return ret
         End Function
 
-        Private Function CharacterMatchesAnyStartingRankCharacterDescription(c As Character, srcds As List(Of StartingRankCharacterDescription)) As Boolean
-            Dim ret As Boolean = False
+        Private Function CharacterMatchesAnyStartingRankCharacterDescription(ch As WlCharacter, srcds As List(Of StartingRankCharacterDescription)) As Boolean
+            Dim ret = False
             For Each srcd As StartingRankCharacterDescription In srcds
-                If (c.Races.Contains(srcd.CharacterRace) OrElse srcd.CharacterRace = RaceEnum.Any) _
-                AndAlso (c.Classes.Contains(srcd.CharacterClass) OrElse srcd.CharacterClass = [Class].Any) _
-                AndAlso c.StartsInRank = srcd.CharacterLevel Then
+                If (ch.Races.Contains(srcd.CharacterRace) OrElse srcd.CharacterRace = RaceEnum.Any) _
+                AndAlso (ch.Classes.Contains(srcd.CharacterClassEnum) OrElse srcd.CharacterClassEnum = ClassEnum.Any) _
+                AndAlso ch.StartsInRank = srcd.CharacterLevel Then
                     ret = True
                     Exit For
                 End If
@@ -44,10 +48,10 @@
 
         Private Function GetStartingRankForMyRace(rank As Integer, numberOfChars As Integer) As List(Of StartingRank)
             Dim ret As New List(Of StartingRank)
-            For Each r As RaceEnum In Me.Races
-                Dim traits As New List(Of StartingRankCharacterDescription)
-                traits.Add(New StartingRankCharacterDescription([Class].Any, r, rank, Nothing))
-                Dim sr As New StartingRank(rank, numberOfChars, traits)
+            For Each race As RaceEnum In Races
+                Dim srcds As New List(Of StartingRankCharacterDescription)
+                srcds.Add(New StartingRankCharacterDescription(ClassEnum.Any, race, rank, Nothing))
+                Dim sr As New StartingRank(rank, numberOfChars, srcds)
                 ret.Add(sr)
             Next
             Return ret
@@ -55,13 +59,17 @@
 
         Private Function GetStartingRankForMyClass(rank As Integer, numberOfChars As Integer) As List(Of StartingRank)
             Dim ret As New List(Of StartingRank)
-            For Each c As [Class] In Me.Classes
-                Dim traits As New List(Of StartingRankCharacterDescription)
-                traits.Add(New StartingRankCharacterDescription(c, RaceEnum.Any, rank, Nothing))
-                Dim sr As New StartingRank(rank, numberOfChars, traits)
+            For Each c As ClassEnum In Classes
+                Dim srcds As New List(Of StartingRankCharacterDescription)
+                srcds.Add(New StartingRankCharacterDescription(c, RaceEnum.Any, rank, Nothing))
+                Dim sr As New StartingRank(rank, numberOfChars, srcds)
                 ret.Add(sr)
             Next
             Return ret
+        End Function
+
+        Public Overridable Function Loyalty() As NoLoyaltyPenalty
+            Return New NoLoyaltyPenalty(Races, New List(Of ClassEnum), New List(Of CharacterTraitEnum))
         End Function
 
     End Class

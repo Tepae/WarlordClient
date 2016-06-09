@@ -1,8 +1,10 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
+
+Namespace GameEngine
 
     Public Class CardInstance
 
-        Private _card As Card.Card
+        Private _card As Cards.Card.Card
         Private _id As Guid
         Private _location As Location
         Private _state As State
@@ -13,7 +15,7 @@
 
         Public Event CardInstanceHasChanged(sender As Object)
 
-        Public Sub New(card As Card.Card)
+        Public Sub New(card As Global.WarlordClient.GameEngine.Cards.Card.Card)
             _card = card
             _id = Guid.NewGuid
             _attachments = New List(Of CardInstance)
@@ -21,7 +23,7 @@
 
 #Region "properties"
 
-        Public ReadOnly Property Card As Card.Card
+        Public ReadOnly Property Card As Global.WarlordClient.GameEngine.Cards.Card.Card
             Get
                 Return _card
             End Get
@@ -102,7 +104,7 @@
         End Function
 
         Public Function ArmorClass() As Integer
-            Return DirectCast(_card, Card.Character).ArmorClass
+            Return DirectCast(_card, WlCharacter).ArmorClass
         End Function
 
         Public Sub Wound(numberOfWounds As Integer)

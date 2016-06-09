@@ -31,7 +31,7 @@ Namespace GameEngine.CharacterMovement
         End Sub
 
         Private Sub LocationChosen(sc As SmallCard, placementChoice As PlacementChoice)
-            Dim op As New OrderPerformer(_owner, _gs, _gfc)
+            Dim op As New OrderPerformer(_owner, _gs)
             Dim o As IOrder = Nothing
             Select Case _cpd.PlacementType
                 Case PlacementChoice.PlacementTypeEnum.Regular
@@ -39,7 +39,7 @@ Namespace GameEngine.CharacterMovement
                 Case PlacementChoice.PlacementTypeEnum.IllegalRank
                     o = New ForceMoveCharacter(_id, sc, placementChoice)
             End Select
-            op.Perform(o, _passTurn)
+            op.Perform(o, _passTurn, Nothing)
         End Sub
 
     End Class

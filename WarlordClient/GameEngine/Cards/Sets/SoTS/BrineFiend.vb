@@ -1,26 +1,35 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
 
+' ReSharper disable once CheckNamespace
+Namespace GameEngine
+
+    ' ReSharper disable once UnusedMember.Global
     Public Class BrineFiend
-        Inherits Card.Character
+        Inherits WlCharacter
 
         Public Sub New()
 
             MyBase.New()
 
             'card
-            Me._name = "Brine Fiend"
-            Me._imagePath = "\images\SotS\brinefiend.jpg"
-            Me._level = 1
-            Me._classes.Add([Class].None)
-            'character
-            Me.Races.Add(RaceEnum.Mercenary)
-            Me.ArmorClass = 8
-            Me.Skill = 0
-            Me._hitPoints = 2
-            Me.Alignment = AlignmentEnum.Evil
-            Me.Traits.Add(CharacterTraitEnum.Monster)
+            _name = "Brine Fiend"
+            _imagePath = "\images\SotS\brinefiend.jpg"
+            _level = 1
+            _classes.Add(ClassEnum.None)
+            'WlCharacter
+            Races.Add(RaceEnum.Mercenary)
+            ArmorClass = 8
+            Skill = 0
+            _hitPoints = 2
+            Alignment = AlignmentEnum.Evil
+            Traits.Add(CharacterTraitEnum.Monster)
 
         End Sub
+
+        Public Overrides Function GetMeleeStrikes() As Strike.StrikeSet
+            Return New Strike.StrikeSet(True, Strike.StrikeSet.TargetingTypeEnum.Consecutive, New Strike.MeleeStrike(0))
+        End Function
+
     End Class
 
 End Namespace

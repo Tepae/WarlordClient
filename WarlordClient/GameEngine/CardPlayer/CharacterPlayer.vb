@@ -1,4 +1,5 @@
 ﻿Imports WarlordClient.GameEngine.CharacterMovement
+Imports WarlordClient.GameEngine.Order
 
 Namespace GameEngine.CardPlayer
 
@@ -6,12 +7,11 @@ Namespace GameEngine.CardPlayer
         Implements ICardPlayer
 
         Private ReadOnly _sc As SmallCard
-        Private ReadOnly _uim As UserInterfaceManipulator
+        Private ReadOnly _uim As UserInterfaceManipulator = GameEngineObjects.UserInterfaceManipulator
         Private ReadOnly _gs As GameState
 
         Public Sub New(sc As SmallCard, gs As GameState)
             _sc = sc
-            _uim = GameEngineObjects.UserInterfaceManipulator
             _gs = gs
         End Sub
 
@@ -24,6 +24,7 @@ Namespace GameEngine.CardPlayer
                                                     _sc,
                                                     _gs.GetCollectionById(_gs.GetOwnerOfCardInstance(_sc.Card)),
                                                     -1,
+                                                    False,
                                                     PlacementChoice.PlacementTypeEnum.PlayFromHand,
                                                     New PlayFromHandRankDeterminer,
                                                     New StandardUserInputNeededButtonConfiguration(AddressOf _uim.CleanContextSensitiveVisuals),
@@ -37,7 +38,8 @@ Namespace GameEngine.CardPlayer
         End Sub
 
         Private Sub PlayCharacter(sc As SmallCard, pc As PlacementChoice)
-
+            Dim op As New OrderPerformer(_gs.GetOwnerOfCardInstance(sc.Card), _gs)
+            op.Perform(New PlayCharacter(Guid.NewGuid(), sc, pc), True, Nothing)
         End Sub
 
     End Class

@@ -1,23 +1,27 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
 
+' ReSharper disable once CheckNamespace
+Namespace GameEngine
+
+    ' ReSharper disable once UnusedMember.Global
     Public Class Keridwen
-        Inherits Card.Character
+        Inherits WlCharacter
 
         Public Sub New()
             MyBase.New()
 
             'card
-            Me._name = "Keridwen"
-            Me._imagePath = "\images\SotS\keridwen.jpg"
-            Me._level = 2
-            Me._classes.Add([Class].Rogue)
-            'character
-            Me.Races.Add(RaceEnum.Mercenary)
-            Me.ArmorClass = 9
-            Me.Skill = 0
-            Me._hitPoints = 1
-            Me.Alignment = AlignmentEnum.Good
-            Me.FlavorTraits.Add("Tribe of Stags")
+            _name = "Keridwen"
+            _imagePath = "\images\SotS\keridwen.jpg"
+            _level = 2
+            _classes.Add(ClassEnum.Rogue)
+            'WlCharacter
+            Races.Add(RaceEnum.Mercenary)
+            ArmorClass = 9
+            Skill = 0
+            _hitPoints = 1
+            Alignment = AlignmentEnum.Good
+            FlavorTraits.Add("Tribe of Stags")
 
         End Sub
 

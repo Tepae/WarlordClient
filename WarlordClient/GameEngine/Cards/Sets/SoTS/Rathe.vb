@@ -1,30 +1,30 @@
 ﻿Imports WarlordClient.GameEngine.Cards.Card
-Imports WarlordClient.GameEngine.CostAndEffect
 Imports WarlordClient.GameEngine.CostAndEffect.Cost
 Imports WarlordClient.GameEngine.CostAndEffect.Effect
-Imports MoveCharacter = WarlordClient.GameEngine.Order.MoveCharacter
 
+' ReSharper disable once CheckNamespace
 Namespace GameEngine
 
+    ' ReSharper disable once UnusedMember.Global
     Public Class Rathe
-        Inherits Card.Warlord
+        Inherits Warlord
 
         Public Sub New()
             MyBase.New()
 
             'card
-            Me._name = "Rathe"
-            Me._imagePath = "\images\SotS\rathe.jpg"
-            Me._level = 5
-            Me._classes.Add([Class].Rogue)
-            'character
-            Me.Races.Add(RaceEnum.Elf)
-            Me.ArmorClass = 16
-            Me.Skill = 8
-            Me._hitPoints = 3
-            Me.Alignment = AlignmentEnum.Evil
-            Me.Traits.Add(CharacterTraitEnum.Unique)
-            Me.Traits.Add(CharacterTraitEnum.Warlord)
+            _name = "Rathe"
+            _imagePath = "\images\SotS\rathe.jpg"
+            _level = 5
+            _classes.Add(ClassEnum.Rogue)
+            'WlCharacter
+            Races.Add(RaceEnum.Elf)
+            ArmorClass = 16
+            Skill = 8
+            _hitPoints = 3
+            Alignment = AlignmentEnum.Evil
+            Traits.Add(CharacterTraitEnum.Unique)
+            Traits.Add(CharacterTraitEnum.Warlord)
 
         End Sub
 
@@ -33,7 +33,7 @@ Namespace GameEngine
         End Function
 
         Public Overrides Function GetOtherActions() As List(Of PerformableAction)
-            Return New List(Of PerformableAction) From {New PerformableAction("Discard card to move", New List(Of ICost) From {New DiscardCards(1)}, New List(Of IEffect) From {New MoveCharacterEffect(1)})}
+            Return New List(Of PerformableAction) From {New PerformableAction("Discard card to move", New List(Of ICost) From {New DiscardCards(1)}, New List(Of IEffect) From {New MoveCharacterEffect(1, True)})}
         End Function
 
     End Class

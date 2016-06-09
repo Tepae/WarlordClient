@@ -13,6 +13,7 @@ Namespace GameEngine
             Dim cc As CardCollection = GetCollectionById(owner)
             If cc IsNot Nothing Then
                 c.CardLocation = CardInstance.Location.InPlay
+                c.CardState = c.Card.BeginsPlayAs()
                 cc.AddCharacterToRankInPlace(c, rank, place)
                 If Not suppressRedraw Then
                     RaiseEvent CardCollectionChanged(cc)

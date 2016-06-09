@@ -1,5 +1,6 @@
 ﻿Imports WarlordClient.Common
 Imports WarlordClient.GameEngine
+Imports WarlordClient.GameEngine.Cards.Card
 Imports WarlordClient.GameEngine.CharacterMovement
 Imports WarlordClient.GameEngine.ClickFilter
 Imports WarlordClient.GameEngine.Hand
@@ -12,7 +13,7 @@ Namespace Graphics
 #Region "members"
 
         Private ReadOnly _playStyle As PlayStyle
-        Private WithEvents _gameEngine As GameEngine.GameEngine
+        Private WithEvents _gameEngineGameEngine As GameEngine.GameEngineGameEngine
         Private WithEvents _cfm As ClickFilterManager
         Private WithEvents _pth As PromptTextHandler
         Private WithEvents _lth As LogTextHandler
@@ -50,7 +51,7 @@ Namespace Graphics
             Me.New(PlayStyle.Local)
             RegisterAndSetupPlayer(player1SetupInfo)
             RegisterAndSetupPlayer(player2SetupInfo)
-            GameEngine.CheckAndStartGame()
+            GameEngineGameEngine.CheckAndStartGame()
         End Sub
 
 #End Region
@@ -62,21 +63,21 @@ Namespace Graphics
         End Sub
 
         Private Sub SetupLocalGame()
-            GameEngine = New GameEngine.GameEngine(New LocalServer.LocalServer)
+            GameEngineGameEngine = New GameEngine.GameEngineGameEngine(New LocalServer.LocalServer)
         End Sub
 
         Private Sub SetupOnlineGame()
         End Sub
 
         Private Sub RegisterAndSetupPlayer(si As Setup.SetupInfo)
-            Dim newPlayer As Player = GameEngine.AddPlayer(si)
+            Dim newPlayer As Player = GameEngineGameEngine.AddPlayer(si)
             CreateHandFormForPlayer(newPlayer)
         End Sub
 
         Private Sub CreateHandFormForPlayer(plr As Player)
             Dim model = New HandModel(plr.Id)
             Dim hand = New HandForm(model, plr.Name)
-            GameEngine.RegisterHand(model)
+            GameEngineGameEngine.RegisterHand(model)
             AddHandler hand.SmallCardMouseHover, AddressOf HandleMouseHoverEvent
             AddHandler hand.SmallCardMouseClick, AddressOf ClickFilterManager.HandleCardInHandClicked
             hand.Show()
@@ -129,7 +130,7 @@ Namespace Graphics
             UpdateDisplayCard(DirectCast(sender, SmallCard).Card.Card)
         End Sub
 
-        Private Sub UpdateDisplayCard(c As Card.Card)
+        Private Sub UpdateDisplayCard(c As Card)
             displayCard.UpdateImage(c)
         End Sub
 
@@ -147,7 +148,7 @@ Namespace Graphics
         End Sub
 
         Private Sub SetActiveFilter()
-            ClickFilterManager.SetActivePlayerFilter(GameEngine.LocalPlayer.Id)
+            ClickFilterManager.SetActivePlayerFilter(GameEngineGameEngine.LocalPlayer.Id)
         End Sub
 
         Private Sub SetInactiveFilter()
@@ -159,7 +160,7 @@ Namespace Graphics
         End Sub
 
         Private Sub CreateContextMenyForCardInPlay(sc As SmallCard, e As CardGridClickEventArgs)
-            Dim cmc As ContextMenuCreator = GameEngine.GetContextMenuCreator()
+            Dim cmc As ContextMenuCreator = GameEngineGameEngine.GetContextMenuCreator()
             cmc.CreateContextMenu(sc, e.MouseArgs.X, e.MouseArgs.Y)
         End Sub
 
@@ -180,7 +181,7 @@ Namespace Graphics
             btnDone.Enabled = True
             _okCallBack = Nothing
             _cancelCallback = Nothing
-            _doneCallback = AddressOf _gameEngine.PassTurnByClickingDone
+            _doneCallback = AddressOf _gameEngineGameEngine.PassTurnByClickingDone
         End Sub
 
         Private Sub ButtonClicked(callback As Action)
@@ -190,7 +191,7 @@ Namespace Graphics
         End Sub
 
         Private Sub PlayCard(sc As SmallCard)
-            GameEngine.PlayCard(sc)
+            GameEngineGameEngine.PlayCard(sc)
         End Sub
 
 #End Region
@@ -202,17 +203,17 @@ Namespace Graphics
                 e.SuppressKeyPress = True
                 Dim txt As String = txtSendMessage.Text
                 If Not String.IsNullOrWhiteSpace(txt) Then
-                    AppendPlayerInputToLogBox(txt, _gameEngine.PlayerName)
+                    AppendPlayerInputToLogBox(txt, _gameEngineGameEngine.PlayerName)
                     txtSendMessage.Clear()
                 End If
             End If
         End Sub
 
-        Private Sub _gameEngine_ActivePlayerSet(plr As Player, isLocal As Boolean) Handles _gameEngine.ActivePlayerSet
+        Private Sub _gameEngine_ActivePlayerSet(plr As Player, isLocal As Boolean) Handles _gameEngineGameEngine.ActivePlayerSet
             SetActivePlayer(plr, isLocal)
         End Sub
 
-        Private Sub _gameEngine_CardCollectionChanged(cc As CardCollection) Handles _gameEngine.CardCollectionChanged
+        Private Sub _gameEngine_CardCollectionChanged(cc As CardCollection) Handles _gameEngineGameEngine.CardCollectionChanged
             DrawCardCollection(cc)
         End Sub
 
@@ -220,39 +221,39 @@ Namespace Graphics
             HandleMouseHoverEvent(sender, e)
         End Sub
 
-        Private Sub _gameEngine_ClearPlacementDots(id As Guid) Handles _gameEngine.ClearPlacementDots
+        Private Sub _gameEngine_ClearPlacementDots(id As Guid) Handles _gameEngineGameEngine.ClearPlacementDots
             ClearPlacementDots(id)
         End Sub
 
-        Private Sub _gameEngine_DrawPlacementDots(id As Guid, card As SmallCard, movementChoices As List(Of PlacementChoice), callback As Action(Of SmallCard, PlacementChoice)) Handles _gameEngine.DrawPlacementDots
+        Private Sub _gameEngine_DrawPlacementDots(id As Guid, card As SmallCard, movementChoices As List(Of PlacementChoice), callback As Action(Of SmallCard, PlacementChoice)) Handles _gameEngineGameEngine.DrawPlacementDots
             DrawPlacementDots(id, card, movementChoices, callback)
         End Sub
 
-        Private Sub _gameEngine_RegisterPlayerToCardGrid(pl As Player) Handles _gameEngine.RegisterPlayerToCardGrid
+        Private Sub _gameEngine_RegisterPlayerToCardGrid(pl As Player) Handles _gameEngineGameEngine.RegisterPlayerToCardGrid
             RegisterPlayerToCardGrid(pl)
         End Sub
 
-        Private Sub _gameEngine_SetActiveFilter() Handles _gameEngine.SetActiveFilter
+        Private Sub _gameEngine_SetActiveFilter() Handles _gameEngineGameEngine.SetActiveFilter
             SetActiveFilter()
         End Sub
 
-        Private Sub _gameEngine_SetInactiveFilter() Handles _gameEngine.SetInactiveFilter
+        Private Sub _gameEngine_SetInactiveFilter() Handles _gameEngineGameEngine.SetInactiveFilter
             SetInactiveFilter()
         End Sub
 
-        Private Sub _gameEngine_SetDefaultInfoboxData() Handles _gameEngine.SetDefaultInfoboxData
+        Private Sub _gameEngine_SetDefaultInfoboxData() Handles _gameEngineGameEngine.SetDefaultInfoboxData
             SetDefaultInfoboxData()
         End Sub
 
-        Private Sub _gameEngine_SetFilter(cf As ClickFilter, cb As ClickFilterManager.Callback) Handles _gameEngine.SetFilter
+        Private Sub _gameEngine_SetFilter(cf As ClickFilter, cb As ClickFilterManager.Callback) Handles _gameEngineGameEngine.SetFilter
             SetFilter(cf, cb)
         End Sub
 
-        Private Sub _gameEngine_SetInfoboxData(data As InfoboxData) Handles _gameEngine.SetInfoboxData
+        Private Sub _gameEngine_SetInfoboxData(data As InfoboxData) Handles _gameEngineGameEngine.SetInfoboxData
             SetInfoboxData(data)
         End Sub
 
-        Private Sub _gameEngine_SystemMessage(txt As String) Handles _gameEngine.SystemMessage
+        Private Sub _gameEngine_SystemMessage(txt As String) Handles _gameEngineGameEngine.SystemMessage
             AppendSystemMessageToLogBox(txt)
         End Sub
 
@@ -315,19 +316,19 @@ Namespace Graphics
 
 #Region "properties"
 
-        Private Property GameEngine As GameEngine.GameEngine
+        Private Property GameEngineGameEngine As GameEngine.GameEngineGameEngine
             Get
-                Return _gameEngine
+                Return _gameEngineGameEngine
             End Get
             Set
-                _gameEngine = Value
+                _gameEngineGameEngine = Value
             End Set
         End Property
 
         Private ReadOnly Property ClickFilterManager As ClickFilterManager
             Get
                 If _cfm Is Nothing Then
-                    _cfm = New ClickFilterManager(GameEngine)
+                    _cfm = New ClickFilterManager(GameEngineGameEngine)
                 End If
                 Return _cfm
             End Get

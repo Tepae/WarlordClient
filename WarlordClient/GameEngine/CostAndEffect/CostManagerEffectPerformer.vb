@@ -24,12 +24,16 @@ Namespace GameEngine.CostAndEffect
             _uim = GameEngineObjects.UserInterfaceManipulator
         End Sub
 
-        Public Sub PayCostsToGetEffects(action As PerformableAction, sc As SmallCard)
-            _costs = action.Costs
-            _effects = action.Effects
+        Public Sub PayCostsToGetEffects(costs As List(Of ICost), effects As List(Of IEffect), sc As SmallCard)
+            _costs = costs
+            _effects = effects
             _sc = sc
             _owner = _gs.GetOwnerOfCardInstance(_sc.Card)
             PayNextCost()
+        End Sub
+
+        Public Sub PayCostsToGetEffects(action As PerformableAction, sc As SmallCard)
+            PayCostsToGetEffects(action.Costs, action.Effects, sc)
         End Sub
 
         Private Sub PayNextCost()
@@ -37,7 +41,7 @@ Namespace GameEngine.CostAndEffect
             If Not cost Is Nothing Then
                 _costId = Guid.NewGuid()
                 EventNotifier.EventNotifier.Register(_costId, Me, True)
-                cost.Pay(_costId, _sc, _owner, _gs)
+                cost.Pay(_costId, _sc, _owner, _gs, AddressOf Cancel)
             Else
                 PlayNextEffect()
             End If
@@ -79,9 +83,6 @@ Namespace GameEngine.CostAndEffect
         Public Sub Cancel()
             For Each cost As ICost In _costs
                 cost.Refund(_costId, _sc, _owner, _gs)
-            Next
-            For Each effect As IEffect In _effects
-                effect.Cancel()
             Next
             _uim.CleanContextSensitiveVisuals()
         End Sub

@@ -1,13 +1,11 @@
-﻿Imports WarlordClient.GameEngine.Cards.Card
+﻿Imports WarlordClient.GameEngine.Card
 Imports WarlordClient.GameEngine.ClickFilter
-Imports WarlordClient.GameEngine.CostAndEffect
 Imports WarlordClient.GameEngine.CostAndEffect.Cost
 Imports WarlordClient.GameEngine.CostAndEffect.Effect
-Imports MoveCharacter = WarlordClient.GameEngine.Order.MoveCharacter
 
-Namespace GameEngine.Card
+Namespace GameEngine.Cards.Card
 
-    Public MustInherit Class Character
+    Public MustInherit Class WlCharacter
         Inherits Card
         Implements IMeleeStriker
         Implements IRangedStriker
@@ -69,7 +67,7 @@ Namespace GameEngine.Card
 
         Private Sub AddPerformableActions()
             If CanSpendToMoveForward() Or CanSpendToMoveBackward() Then
-                Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacterEffect(1)}))
+                Actions.Add(New PerformableAction("Spend to move", New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New MoveCharacterEffect(1, False)}))
             End If
             If GetMeleeStrikes().Count > 0 Then
                 Actions.Add(New PerformableAction(GetMeleeStrikes.ToString, New List(Of ICost) From {New SpendMe()}, New List(Of IEffect) From {New PerformStrikeEffect(GetMeleeStrikes())}))

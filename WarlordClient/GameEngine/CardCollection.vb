@@ -64,7 +64,7 @@
             Return ret
         End Function
 
-        Public Function GetAmountOfCharacterInRanks(c As Card.Card) As Integer
+        Public Function GetAmountOfCharacterInRanks(c As Global.WarlordClient.GameEngine.Cards.Card.Card) As Integer
             Dim ret As Integer = 0
             For Each rank As Integer In Me._cards.Keys
                 For Each ci As CardInstance In _cards(rank)
@@ -132,6 +132,17 @@
             Dim ret As New List(Of CardInstance)
             For i As Integer = 0 To RankCount() Step 1
                 ret.AddRange(CharactersInRank(i))
+            Next
+            Return ret
+        End Function
+
+        Public Function Warlord() As CardInstance
+            Dim ret As CardInstance = Nothing
+            For Each ci As CardInstance In AllCards()
+                If ci.Warlord Then
+                    ret = ci
+                    Exit For
+                End If
             Next
             Return ret
         End Function

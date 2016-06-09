@@ -2,21 +2,14 @@
 
     Public Class CardPlayerFactory
 
-        Private _sc As SmallCard = Nothing
-        Private _ge As GameEngine = Nothing
-        Private _gs As GameState = Nothing
-
-        Public Function CreateCardPlayer(sc As SmallCard, ge As GameEngine, gs As GameState) As ICardPlayer
-            _sc = sc
-            _ge = ge
-            _gs = gs
+        Public Function CreateCardPlayer(sc As SmallCard, gs As GameState) As ICardPlayer
             Dim ret As ICardPlayer = Nothing
             Select Case sc.Card.Card.CardType
-                Case Card.Card.CardTypeEnum.Action
-
-                Case Card.Card.CardTypeEnum.Character
-
-                Case Card.Card.CardTypeEnum.Item
+                Case Cards.Card.Card.CardTypeEnum.Action
+                    Return New ActionPlayer(sc, gs)
+                Case Cards.Card.Card.CardTypeEnum.Character
+                    Return New CharacterPlayer(sc, gs)
+                Case Cards.Card.Card.CardTypeEnum.Item
 
             End Select
             Return ret

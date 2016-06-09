@@ -7,11 +7,11 @@ Namespace GameEngine
     Public Class ContextMenuCreator
 
         Private ReadOnly _gs As GameState
-        Private ReadOnly _ge As GameEngine
+        Private ReadOnly _ge As GameEngineGameEngine
         Private ReadOnly _gfc As GameFlowController
         Private _sc As SmallCard
 
-        Public Sub New(gs As GameState, ge As GameEngine, gfc As GameFlowController)
+        Public Sub New(gs As GameState, ge As GameEngineGameEngine, gfc As GameFlowController)
             _gs = gs
             _ge = ge
             _gfc = gfc

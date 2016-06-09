@@ -6,24 +6,25 @@ Namespace GameEngine.Order
 
         Private ReadOnly _owner As Guid
         Private ReadOnly _gs As GameState
-        Private ReadOnly _gfc As GameFlowController
+        Private ReadOnly _gfc As GameFlowController = GameEngineObjects.GameFlowController
         Private _passTurn As Boolean = True
         Private _id As Guid
+        Private _exitPoint As Action
 
-        Public Sub New(owner As Guid, gs As GameState, gfc As GameFlowController)
+        Public Sub New(owner As Guid, gs As GameState)
             _owner = owner
             _gs = gs
-            _gfc = gfc
         End Sub
 
-        Public Sub Perform(o As IOrder, passTurn As Boolean)
+        Public Sub Perform(o As IOrder, passTurn As Boolean, exitPoint As Action)
             _id = o.Id
             _passTurn = passTurn
+            _exitPoint = exitPoint
             AllowBeforeResponses()
             o.Perform(_owner, _gs)
             AllowAfterResponses()
             CleanInterface()
-            PassTurnIfAble()
+            [End]()
         End Sub
 
         Private Sub AllowBeforeResponses()
@@ -56,10 +57,12 @@ Namespace GameEngine.Order
             GameEngineObjects.UserInterfaceManipulator.CleanContextSensitiveVisuals()
         End Sub
 
-        Private Sub PassTurnIfAble()
-            If _passTurn Then
-                If _gfc.StateBasedEffectsAllowForTurnToBePassed() Then
+        Private Sub [End]()
+            If _gfc.StateBasedEffectsAllowForTurnToBePassed(AddressOf [End]) Then
+                If _passTurn Then
                     _gfc.PassTurn()
+                ElseIf _exitPoint IsNot Nothing Then
+                    _exitPoint.Invoke()
                 End If
             End If
         End Sub

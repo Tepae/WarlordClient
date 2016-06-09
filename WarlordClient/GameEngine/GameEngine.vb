@@ -8,10 +8,11 @@ Imports WarlordClient.GameEngine.StateBasedEffects
 
 Namespace GameEngine
 
-    Public Class GameEngine
+    Public Class GameEngineGameEngine
         Implements IGameEngineUserInterfaceManipulator
         Implements IGameEngineGameFlowController
         Implements IGameEngineStateBasedEffectsFixer
+        Implements IGameEngineGameStateManipulator
 
 #Region "members"
 
@@ -20,8 +21,10 @@ Namespace GameEngine
         Private WithEvents _gameState As GameState
         Private _localPlayer As Player
         Private _cardPlayerFactory As CardPlayerFactory
+
         Private _uim As UserInterfaceManipulator
         Private _gfc As GameFlowController
+        Private _gsm As GameStateManipulator
 
         Public Event CardCollectionChanged(cc As CardCollection)
         Public Event ActivePlayerSet(plr As Player, isLocal As Boolean)
@@ -98,7 +101,7 @@ Namespace GameEngine
 
 #Region "illegal rank"
 
-        Private Sub PromptPlayerToFixIllegalRank(rank As Integer, plr As Player)
+        Private Sub PromptPlayerToFixIllegalRank(rank As Integer, plr As Player) Implements IGameEngineStateBasedEffectsFixer.PromptPlayerToFixIllegalRank
             RaiseSystemMessage(String.Format("Player {0} has an illegal rank: {1}", plr.Name, rank.ToString))
             SetInfoBox(New InfoboxData(String.Format("Select a character to fall forward from rank {0}", rank.ToString), New NoUserInputButtonConfiguration))
             SetClickFilterForIllegalRank(rank, plr)
@@ -131,7 +134,7 @@ Namespace GameEngine
 #Region "play card"
 
         Public Sub PlayCard(sc As SmallCard)
-
+            CardPlayerFactory.CreateCardPlayer(sc, GameState).PlayCard()
         End Sub
 
 #End Region
@@ -149,6 +152,10 @@ Namespace GameEngine
             UnspendCharacters()
             EachLocalPlayerDiscardsAndDraws()
             RollInitiative()
+        End Sub
+
+        Public Sub DrawXCards(player As Guid, x As Integer) Implements IGameEngineGameStateManipulator.DrawXCards
+            GameState.GetHandModelById(player).AddCards(_deckManager.DrawX(player, x))
         End Sub
 
         Public Function DrawCardsToHandsize(id As Guid, currentNumberOfCardsInHand As Integer) As List(Of CardInstance)
@@ -169,8 +176,8 @@ Namespace GameEngine
             Server.PlayerEndsTurn(LocalPlayer.Id, True)
         End Sub
 
-        Public Function StateBasedEffectsAllowForTurnToBePassed() As Boolean Implements IGameEngineGameFlowController.StateBasedEffectsAllowForTurnToBePassed
-            Return (New StateBasedEffectsFixer(Me)).StateBasedEffectsAllowForTurnToBePassed()
+        Public Function StateBasedEffectsAllowForTurnToBePassed(entryPointWhenFixed As Action) As Boolean Implements IGameEngineGameFlowController.StateBasedEffectsAllowForTurnToBePassed
+            Return (New StateBasedEffectsFixer(Me, GameState, entryPointWhenFixed)).StateBasedEffectsAllowForTurnToBePassed()
         End Function
 
         Private Function CheckForDeadCharacters() As Boolean Implements IGameEngineStateBasedEffectsFixer.CheckForDeadCharacters
@@ -186,13 +193,12 @@ Namespace GameEngine
             Return True
         End Function
 
-        Public Function CheckIllegalRanks() As Boolean Implements IGameEngineStateBasedEffectsFixer.CheckIllegalRanks
-            Dim ret = True
+        Public Function CheckIllegalRanks() As Player Implements IGameEngineStateBasedEffectsFixer.CheckIllegalRanks
+            Dim ret As Player = Nothing
             For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
                 Dim rank As Integer = GameState.GetFirstIllegalRank(plr.Id)
                 If rank > 0 Then
-                    PromptPlayerToFixIllegalRank(rank, plr)
-                    ret = False
+                    ret = plr
                     Exit For
                 End If
             Next
@@ -364,6 +370,15 @@ Namespace GameEngine
             End Get
         End Property
 
+        Public ReadOnly Property GameStateManipulator() As GameStateManipulator
+            Get
+                If _gsm Is Nothing Then
+                    _gsm = New GameStateManipulator(Me)
+                End If
+                Return _gsm
+            End Get
+        End Property
+
 #End Region
 
 #Region "eventhandlers"
@@ -383,5 +398,4 @@ Namespace GameEngine
 #End Region
 
     End Class
-
 End Namespace

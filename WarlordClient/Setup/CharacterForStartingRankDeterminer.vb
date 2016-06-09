@@ -1,5 +1,6 @@
 ﻿Imports WarlordClient.GameEngine.Card
 Imports WarlordClient.GameEngine
+Imports WarlordClient.GameEngine.Cards.Card
 
 Namespace Setup
 
@@ -9,7 +10,7 @@ Namespace Setup
             Dim ret As New List(Of Card)
             If wl IsNot Nothing Then
                 For Each dle As DeckListEntry In dl.Cards
-                    If TypeOf (dle.Card) Is Character _
+                    If TypeOf (dle.Card) Is WlCharacter _
                         AndAlso wl.CharacterCanStartInMyArmy(dle.Card) _
                         AndAlso rank = dle.Card.StartsInRank _
                         AndAlso Not AllInstancesOfCharacterHasBeenPlaced(dl.GetCardAmount(dle.Card), dle.Card, cc) Then

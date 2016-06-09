@@ -38,10 +38,13 @@
 
         Public Property Wounds As Integer
 
+        Public Property Filter As ClickFilter.ClickFilter
+
         Public Enum StrikeTypeEnum
             None
             Melee
             Ranged
+            Special
         End Enum
     End Class
 

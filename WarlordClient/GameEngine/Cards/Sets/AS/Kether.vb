@@ -1,7 +1,9 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
+
+Namespace GameEngine
 
     Public Class Kether
-        Inherits Card.Character
+        Inherits WlCharacter
 
         Public Sub New()
             MyBase.New()
@@ -10,8 +12,8 @@
             Me._name = "Kether"
             Me._imagePath = "\images\AS\kether.jpg"
             Me._level = 1
-            Me._classes.Add([Class].Rogue)
-            'character
+            Me._classes.Add(ClassEnum.Rogue)
+            'WlCharacter
             Me.Races.Add(RaceEnum.Elf)
             Me.Traits.Add(CharacterTraitEnum.Scout)
             Me.ArmorClass = 11

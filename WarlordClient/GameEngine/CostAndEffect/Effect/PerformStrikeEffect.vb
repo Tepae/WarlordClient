@@ -17,10 +17,6 @@ Namespace GameEngine.CostAndEffect.Effect
             _ss = ss
         End Sub
 
-        Public Sub Cancel() Implements IEffect.Cancel
-            'not supported
-        End Sub
-
         Public Sub Perform(id As Guid, owner As Guid, sc As SmallCard, gs As GameState, passTurn As Boolean, cancelAction As Action) Implements IEffect.Perform
             _id = id
             _owner = owner

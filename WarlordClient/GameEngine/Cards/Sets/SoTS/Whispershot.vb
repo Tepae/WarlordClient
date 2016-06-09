@@ -1,22 +1,25 @@
-﻿Namespace GameEngine
+﻿Imports WarlordClient.GameEngine.Cards.Card
+
+' ReSharper disable once CheckNamespace
+Namespace GameEngine
 
     Public Class Whispershot
-        Inherits Card.Character
+        Inherits WlCharacter
 
         Public Sub New()
             MyBase.New()
 
             'card
-            Me._name = "Whispershot"
-            Me._imagePath = "\images\SotS\whispershot.jpg"
-            Me._level = 1
-            Me._classes.Add([Class].Fighter)
-            'character
-            Me.Races.Add(RaceEnum.Elf)
-            Me.ArmorClass = 10
-            Me.Skill = 0
-            Me._hitPoints = 1
-            Me.Alignment = AlignmentEnum.Evil
+            _name = "Whispershot"
+            _imagePath = "\images\SotS\whispershot.jpg"
+            _level = 1
+            _classes.Add(ClassEnum.Fighter)
+            'WlCharacter
+            Races.Add(RaceEnum.Elf)
+            ArmorClass = 10
+            Skill = 0
+            _hitPoints = 1
+            Alignment = AlignmentEnum.Evil
 
         End Sub
 

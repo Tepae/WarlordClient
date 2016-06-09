@@ -5,6 +5,7 @@
         Private ReadOnly _uim As UserInterfaceManipulator
         Private ReadOnly _sc As SmallCard
         Private ReadOnly _range As Integer
+        Private ReadOnly _excludeOwnRank As Boolean
         Private ReadOnly _rankDeterminer As IRanksAvailableForPlacementDeterminer
         Private ReadOnly _buttonConfiguration As ButtonConfiguration
         Private ReadOnly _infoBoxTextGenerator As IInfoBoxTextGenerator
@@ -12,11 +13,12 @@
 
         Public Event PlacementChoicesAvailable(sc As SmallCard, mcs As List(Of PlacementChoice))
 
-        Public Sub New(uim As UserInterfaceManipulator, sc As SmallCard, cardCollectionToPlaceCharacter As CardCollection, range As Integer, type As PlacementChoice.PlacementTypeEnum, rankDeterminer As IRanksAvailableForPlacementDeterminer, buttonConfiguration As ButtonConfiguration, infoBoxTextGenerator As IInfoBoxTextGenerator)
+        Public Sub New(uim As UserInterfaceManipulator, sc As SmallCard, cardCollectionToPlaceCharacter As CardCollection, range As Integer, excludeOwnRank As Boolean, type As PlacementChoice.PlacementTypeEnum, rankDeterminer As IRanksAvailableForPlacementDeterminer, buttonConfiguration As ButtonConfiguration, infoBoxTextGenerator As IInfoBoxTextGenerator)
             _uim = uim
             _sc = sc
             _cardCollectionToPlaceCharacter = cardCollectionToPlaceCharacter
             _range = range
+            _excludeOwnRank = excludeOwnRank
             PlacementType = type
             _rankDeterminer = rankDeterminer
             _buttonConfiguration = buttonConfiguration
@@ -56,7 +58,7 @@
         Private Function GetPlacementChoices(rank As Integer, c As CardInstance) As List(Of PlacementChoice)
             Dim ret As New List(Of PlacementChoice)
             Dim charactersInRank As List(Of CardInstance) = _cardCollectionToPlaceCharacter.CharactersInRank(rank)
-            If charactersInRank.Count > 0 Then
+            If (Not (_excludeOwnRank AndAlso rank = _cardCollectionToPlaceCharacter.RankAndPlaceOfCharacter(c).Key)) AndAlso charactersInRank.Count > 0 Then
                 For i = 0 To charactersInRank.Count - 1 Step 1
                     Dim currentCard As CardInstance = charactersInRank(i)
                     Dim nextCard As CardInstance = If(i < charactersInRank.Count - 1, charactersInRank(i + 1), Nothing)

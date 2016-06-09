@@ -1,6 +1,4 @@
-﻿Imports WarlordClient.GameEngine.Cards.Card
-
-Namespace GameEngine.Card
+﻿Namespace GameEngine.Cards.Card
 
     Public MustInherit Class Card
 
@@ -10,7 +8,7 @@ Namespace GameEngine.Card
         Friend _imagePath As String
         Friend _cardType As CardTypeEnum
         Friend _level As Integer
-        Friend _classes As List(Of [Class])
+        Friend _classes As List(Of ClassEnum)
         Friend _actions As List(Of PerformableAction)
         Friend _defaultPerformableAction As PerformableAction
 
@@ -19,7 +17,7 @@ Namespace GameEngine.Card
 #Region "ctor"
 
         Public Sub New()
-            _classes = New List(Of [Class])
+            _classes = New List(Of ClassEnum)
             _actions = New List(Of PerformableAction)
         End Sub
 
@@ -79,7 +77,7 @@ Namespace GameEngine.Card
             End Get
         End Property
 
-        Public ReadOnly Property Classes As List(Of [Class])
+        Public ReadOnly Property Classes As List(Of ClassEnum)
             Get
                 Return _classes
             End Get
@@ -101,7 +99,7 @@ Namespace GameEngine.Card
             Item
         End Enum
 
-        Public Enum [Class]
+        Public Enum ClassEnum
             Any
             None
             Rogue
@@ -111,7 +109,6 @@ Namespace GameEngine.Card
         End Enum
 
 #End Region
-
 
     End Class
 

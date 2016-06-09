@@ -10,11 +10,11 @@ Namespace GameEngine
             _cnm = New CardNameMapper
         End Sub
 
-        Public Function GetCardFromClassName(name As String) As Card.Card
+        Public Function GetCardFromClassName(name As String) As Cards.Card.Card
             name = _cnm.GetMappedCardname(name)
             name = TrimCardName(name)
             Dim t As Type = GetAssembly().GetType(String.Format("WarlordClient.GameEngine.{0}", TrimCardName(name)))
-            Dim c As Card.Card = Activator.CreateInstance(t)
+            Dim c As Cards.Card.Card = Activator.CreateInstance(t)
             Return c
         End Function
 

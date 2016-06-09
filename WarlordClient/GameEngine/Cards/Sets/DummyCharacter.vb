@@ -1,9 +1,10 @@
 ﻿Imports WarlordClient.GameEngine.Card
+Imports WarlordClient.GameEngine.Cards.Card
 
 Namespace GameEngine
 
     Public Class DummyCharacter
-        Inherits Character
+        Inherits WlCharacter
 
         Public Sub New()
 
@@ -13,8 +14,8 @@ Namespace GameEngine
             Me._name = "Dummy"
             Me._imagePath = "\images\dummy.jpg"
             Me._level = 1
-            Me._classes.Add([Class].Any)
-            'character
+            Me._classes.Add(ClassEnum.Any)
+            'WlCharacter
             Me.Races.Add(RaceEnum.Any)
             Me.ArmorClass = 1
             Me.Skill = 0

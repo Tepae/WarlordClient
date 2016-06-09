@@ -24,8 +24,8 @@
             _ge.CancelAction()
         End Sub
 
-        Public Function StateBasedEffectsAllowForTurnToBePassed() As Boolean
-            Return _ge.StateBasedEffectsAllowForTurnToBePassed()
+        Public Function StateBasedEffectsAllowForTurnToBePassed(entryPointWhenFixed As Action) As Boolean
+            Return _ge.StateBasedEffectsAllowForTurnToBePassed(entryPointWhenFixed)
         End Function
 
     End Class

@@ -1,8 +1,8 @@
 ﻿Imports WarlordClient.Setup
 Imports WarlordClient.PrebuiltDeck
 Imports WarlordClient.GameEngine
-Imports WarlordClient.GameEngine.Card
 Imports System.IO
+Imports WarlordClient.GameEngine.Cards.Card
 Imports WarlordClient.Graphics.CardGrid
 
 Public Class SetupGameForm
@@ -122,6 +122,9 @@ Public Class SetupGameForm
                 Dim place As Integer = 0
                 For Each characterName As String In _deck.PredefinedStartingCharacters(_wl.Name)(rank)
                     Dim ci As CardInstance = _cic.GetCardInstanceFromClassName(characterName)
+                    If ci.Card.Name.Equals(_wl.Name) Then
+                        ci.Warlord = True
+                    End If
                     If _cardCollection.HasACharacterAt(rank, place) Then
                         _cardCollection.Replace(ci, rank, place)
                     Else
@@ -143,14 +146,16 @@ Public Class SetupGameForm
     End Sub
 
     Private Sub AddCurrentWarlordToCardCollection(wl As Warlord)
-        _cardCollection.AddCharacterToRank(_cic.GetCardInstanceFromClassName(wl.Name), wl.StartsInRankAsWarlord)
+        Dim warlord As CardInstance = _cic.GetCardInstanceFromClassName(wl.Name)
+        warlord.Warlord = True
+        _cardCollection.AddCharacterToRank(warlord, wl.StartsInRankAsWarlord)
     End Sub
 
     Private Function GetPossibleCharactersForRank(rank As Integer) As List(Of Card)
         Dim ret As New List(Of Card)
         For Each dle As DeckListEntry In _deckList.Cards
             If dle.Card.CardType = Card.CardTypeEnum.Character Then
-                If _wl.CharacterCanStartInMyArmy(DirectCast(dle.Card, Character)) Then
+                If _wl.CharacterCanStartInMyArmy(DirectCast(dle.Card, WlCharacter)) Then
                     ret.Add(dle.Card)
                 End If
             End If

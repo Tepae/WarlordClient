@@ -15,8 +15,14 @@
             End If
         End Sub
 
+        Public Shared Sub Decrement(id As Guid, orderName As String)
+            If HasCharacter(id) AndAlso HasEntryForOrder(id, orderName) Then
+                OrdersPlayedByCardInstance(id)(orderName) -= 1
+            End If
+        End Sub
+
         Public Shared Function CanPerformOrder(id As Guid, orderName As String, maxAmount As Integer) As Boolean
-            Return maxAmount < CountForOrder(id, orderName)
+            Return maxAmount > CountForOrder(id, orderName)
         End Function
 
         Private Shared Function HasCharacter(id As Guid) As Boolean

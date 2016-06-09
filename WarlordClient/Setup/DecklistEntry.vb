@@ -1,4 +1,4 @@
-﻿Imports WarlordClient.GameEngine.Card
+﻿Imports WarlordClient.GameEngine.Cards.Card
 
 Namespace Setup
 
