@@ -1,4 +1,5 @@
-﻿Imports WarlordClient.GameEngine.Order
+﻿
+Imports WarlordClient.GameEngine.RespondableAction
 
 Namespace GameEngine.CharacterMovement
 
@@ -31,8 +32,8 @@ Namespace GameEngine.CharacterMovement
         End Sub
 
         Private Sub LocationChosen(sc As SmallCard, placementChoice As PlacementChoice)
-            Dim op As New OrderPerformer(_owner, _gs)
-            Dim o As IOrder = Nothing
+            Dim op As New RespondableActionPerformer(_owner, _gs)
+            Dim o As IRespondableAction = Nothing
             Select Case _cpd.PlacementType
                 Case PlacementChoice.PlacementTypeEnum.Regular
                     o = New MoveCharacter(_id, sc, placementChoice)

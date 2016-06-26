@@ -50,8 +50,8 @@
             'mainPanel
             '
             Me.mainPanel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                          Or System.Windows.Forms.AnchorStyles.Left) _
-                                         Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.mainPanel.Controls.Add(Me.splitContainer)
             Me.mainPanel.Location = New System.Drawing.Point(231, 2)
             Me.mainPanel.Name = "mainPanel"
@@ -81,8 +81,8 @@
             'cgTop
             '
             Me.cgTop.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                      Or System.Windows.Forms.AnchorStyles.Left) _
-                                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.cgTop.AutoScroll = True
             Me.cgTop.BackColor = System.Drawing.Color.LightYellow
             Me.cgTop.DisplayStyle = WarlordClient.CardGrid.Display.HighestTopmost
@@ -95,8 +95,8 @@
             'cgBottom
             '
             Me.cgBottom.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                         Or System.Windows.Forms.AnchorStyles.Left) _
-                                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.cgBottom.AutoScroll = True
             Me.cgBottom.BackColor = System.Drawing.Color.PaleGreen
             Me.cgBottom.DisplayStyle = WarlordClient.CardGrid.Display.LowestTopmost
@@ -225,7 +225,7 @@
             Me.MainMenuStrip = Me.MenuStrip1
             Me.Name = "MainForm"
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-            Me.Text = "Warlord BETA"
+            Me.Text = "Warlord"
             Me.mainPanel.ResumeLayout(False)
             Me.splitContainer.Panel1.ResumeLayout(False)
             Me.splitContainer.Panel2.ResumeLayout(False)

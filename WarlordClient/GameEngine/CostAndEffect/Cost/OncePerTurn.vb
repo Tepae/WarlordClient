@@ -23,6 +23,10 @@
             _paid = False
         End Sub
 
+        Public Sub Reset() Implements ICost.Reset
+            'not supported, reset at end of turn
+        End Sub
+
         Public Function CanPay(sourceCard As SmallCard, ownerOfCard As Guid, gs As GameState) As Boolean Implements ICost.CanPay
             Return OrderPerTurnCounter.CanPerformOrder(sourceCard.Card.Id, _name, 1)
         End Function

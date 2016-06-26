@@ -23,7 +23,7 @@ Namespace GameEngine.Hand
                 End If
             Next
             If ret Is Nothing Then
-                Throw New ArgumentException(String.Format("Could not find hand registered with id {0}", owner.ToString()))
+                Throw New ArgumentException(String.Format("Could not find hand registered with RespondableActionId {0}", owner.ToString()))
             End If
             Return ret
         End Function

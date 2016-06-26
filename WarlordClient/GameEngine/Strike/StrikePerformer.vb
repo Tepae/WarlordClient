@@ -1,5 +1,5 @@
 ﻿Imports WarlordClient.GameEngine.Cards.Card
-Imports WarlordClient.GameEngine.Order
+Imports WarlordClient.GameEngine.RespondableAction
 
 Namespace GameEngine.Strike
 
@@ -54,7 +54,7 @@ Namespace GameEngine.Strike
         End Sub
 
         Private Sub TargetChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            Dim op As New OrderPerformer(_owner, _gs)
+            Dim op As New RespondableActionPerformer(_owner, _gs)
             op.Perform(New PerformStrike(_id, _source, sc, _s), _isLast, _nextStrike)
         End Sub
 

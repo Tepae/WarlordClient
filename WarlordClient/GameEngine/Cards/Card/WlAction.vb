@@ -12,6 +12,7 @@ Namespace GameEngine.Cards.Card
         Friend _costs As List(Of ICost)
         Friend ReadOnly Effects As List(Of IEffect)
         Private _gs As GameState = Nothing
+        Private _actionSource As SmallCard = Nothing
 
         Public Sub New()
             MyBase.New()
@@ -26,9 +27,10 @@ Namespace GameEngine.Cards.Card
 
         Protected MustOverride Sub Setup()
 
-        Public Overridable Sub Perform(owner As Guid, gs As GameState)
-            ChooseCharacterToPerformAction(owner)
+        Public Overridable Sub Perform(owner As Guid, gs As GameState, actionSource As SmallCard)
             _gs = gs
+            _actionSource = actionSource
+            ChooseCharacterToPerformAction(owner)
         End Sub
 
         Private Sub ChooseCharacterToPerformAction(owner As Guid)
@@ -57,9 +59,15 @@ Namespace GameEngine.Cards.Card
             Perform(_gs, sc)
         End Sub
 
-        Public Overridable Sub Perform(gs As GameState, source As SmallCard)
+        Public Overridable Sub Perform(gs As GameState, performer As SmallCard)
             Dim cmep As New CostManagerEffectPerformer(gs, GameEngineObjects.GameFlowController)
-            cmep.PayCostsToGetEffects(_costs, Effects, source)
+            cmep.PayCostsToGetEffects(_costs, Effects, performer)
+            Clean()
+        End Sub
+
+        Protected Overridable Sub Clean()
+            _gs.DiscardCardFromHand(_actionSource.Card)
+            GameEngineObjects.UserInterfaceManipulator.CleanContextSensitiveVisuals()
         End Sub
 
 #End Region

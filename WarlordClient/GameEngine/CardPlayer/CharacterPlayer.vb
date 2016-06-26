@@ -1,5 +1,4 @@
 ﻿Imports WarlordClient.GameEngine.CharacterMovement
-Imports WarlordClient.GameEngine.Order
 
 Namespace GameEngine.CardPlayer
 
@@ -38,8 +37,7 @@ Namespace GameEngine.CardPlayer
         End Sub
 
         Private Sub PlayCharacter(sc As SmallCard, pc As PlacementChoice)
-            Dim op As New OrderPerformer(_gs.GetOwnerOfCardInstance(sc.Card), _gs)
-            op.Perform(New PlayCharacter(Guid.NewGuid(), sc, pc), True, Nothing)
+
         End Sub
 
     End Class

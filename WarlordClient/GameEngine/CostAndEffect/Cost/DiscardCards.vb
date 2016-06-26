@@ -25,7 +25,7 @@ Namespace GameEngine.CostAndEffect.Cost
             NextDiscard()
         End Sub
 
-        Private Sub Reset()
+        Private Sub Reset() Implements ICost.Reset
             _remains = _amount
         End Sub
 
@@ -58,7 +58,6 @@ Namespace GameEngine.CostAndEffect.Cost
                 NextDiscard()
             Else
                 EventNotifier.EventNotifier.Notify(_id)
-                Reset()
             End If
         End Sub
 

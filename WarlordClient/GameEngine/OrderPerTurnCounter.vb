@@ -1,5 +1,6 @@
 ﻿Namespace GameEngine
 
+    ' ReSharper disable once ClassNeverInstantiated.Global
     Public Class OrderPerTurnCounter
 
         Private Shared ReadOnly OrdersPlayedByCardInstance As New Dictionary(Of Guid, Dictionary(Of String, Integer))

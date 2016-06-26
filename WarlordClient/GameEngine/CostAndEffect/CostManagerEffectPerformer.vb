@@ -43,6 +43,7 @@ Namespace GameEngine.CostAndEffect
                 EventNotifier.EventNotifier.Register(_costId, Me, True)
                 cost.Pay(_costId, _sc, _owner, _gs, AddressOf Cancel)
             Else
+                ResetCosts()
                 PlayNextEffect()
             End If
         End Sub
@@ -56,6 +57,12 @@ Namespace GameEngine.CostAndEffect
             Next
             Return ret
         End Function
+
+        Private Sub ResetCosts()
+            For Each cost As ICost In _costs
+                cost.Reset()
+            Next
+        End Sub
 
         Private Sub PlayNextEffect()
             Dim effect As IEffect = GetNextEffect()
@@ -71,6 +78,7 @@ Namespace GameEngine.CostAndEffect
             For Each effect As IEffect In _effects
                 If Not effect.IsPerformed() Then
                     ret = effect
+                    Exit For
                 End If
             Next
             Return ret

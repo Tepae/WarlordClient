@@ -3,16 +3,17 @@ Imports WarlordClient.GameEngine.ClickFilter.ClickFilterManager
 Imports WarlordClient.GameEngine.CharacterMovement
 Imports WarlordClient.GameEngine.Hand
 Imports WarlordClient.GameEngine.CardPlayer
-Imports WarlordClient.GameEngine.Order
+Imports WarlordClient.GameEngine.CostAndEffect.Effect
 Imports WarlordClient.GameEngine.StateBasedEffects
 
 Namespace GameEngine
 
-    Public Class GameEngineGameEngine
+    Public Class GameEngine
         Implements IGameEngineUserInterfaceManipulator
         Implements IGameEngineGameFlowController
         Implements IGameEngineStateBasedEffectsFixer
         Implements IGameEngineGameStateManipulator
+        Implements IGameEngineServerCommunication
 
 #Region "members"
 
@@ -25,6 +26,7 @@ Namespace GameEngine
         Private _uim As UserInterfaceManipulator
         Private _gfc As GameFlowController
         Private _gsm As GameStateManipulator
+        Private _sc As ServerCommunication
 
         Public Event CardCollectionChanged(cc As CardCollection)
         Public Event ActivePlayerSet(plr As Player, isLocal As Boolean)
@@ -99,38 +101,6 @@ Namespace GameEngine
 
 #Region "game"
 
-#Region "illegal rank"
-
-        Private Sub PromptPlayerToFixIllegalRank(rank As Integer, plr As Player) Implements IGameEngineStateBasedEffectsFixer.PromptPlayerToFixIllegalRank
-            RaiseSystemMessage(String.Format("Player {0} has an illegal rank: {1}", plr.Name, rank.ToString))
-            SetInfoBox(New InfoboxData(String.Format("Select a character to fall forward from rank {0}", rank.ToString), New NoUserInputButtonConfiguration))
-            SetClickFilterForIllegalRank(rank, plr)
-        End Sub
-
-        Private Sub SetClickFilterForIllegalRank(rank As Integer, plr As Player)
-            Dim f As New ClickFilter.Filter
-            f.Add(New ClickFilter.OwnerFilter(plr.Id))
-            f.Add(New ClickFilter.LocationFilter(CardInstance.Location.InPlay))
-            f.Add(New ClickFilter.RankFilter(rank))
-            f.LogicalOperator = ClickFilter.Filter.LogicalOperatorEnum.And
-            SetFilterForPlayer(New ClickFilter.ClickFilter(f, True), AddressOf CharacterToFallForwardChosen)
-        End Sub
-
-        Private Sub CharacterToFallForwardChosen(sc As SmallCard, owner As Guid, btn As MouseButtons)
-            Dim cm As New CharacterMover(New Guid, GameState, CharacterPlacementDialogFactory.CreateDialogForIllegalRank(sc, GameState.GetCollectionById(GameState.GetOwnerOfCardInstance(sc.Card)), AddressOf CheckIllegalRanks), True)
-            cm.MoveCharacter()
-        End Sub
-
-#End Region
-
-#Region "discard"
-
-        Public Sub DiscardCardFromHand(owner As Guid, sc As SmallCard)
-            GameState.GetHandModelById(owner).RemoveCard(sc.Card, True)
-        End Sub
-
-#End Region
-
 #Region "play card"
 
         Public Sub PlayCard(sc As SmallCard)
@@ -139,9 +109,24 @@ Namespace GameEngine
 
 #End Region
 
+#Region "draw card"
+
+        Public Sub DrawXCards(plr As Guid, amount As Integer) Implements IGameEngineGameStateManipulator.DrawXCards
+            GameState.GetHandModelById(plr).AddCards(_deckManager.DrawX(plr, amount))
+        End Sub
+
+#End Region
+
         Private Sub StartGame() Implements IGameEngineGameFlowController.StartGame
             RaiseEvent GameStarting()
+            DrawStartingHand
             NewTurn()
+        End Sub
+
+        Private Sub DrawStartingHand()
+            For Each plr As Player In Players.GetPlayersByType(Player.PlayerType.Local)
+                DrawXCards(plr.Id, 5)
+            Next
         End Sub
 
         Private Sub NewRound() Implements IGameEngineGameFlowController.NewRound
@@ -150,22 +135,7 @@ Namespace GameEngine
 
         Private Sub NewTurn()
             UnspendCharacters()
-            EachLocalPlayerDiscardsAndDraws()
             RollInitiative()
-        End Sub
-
-        Public Sub DrawXCards(player As Guid, x As Integer) Implements IGameEngineGameStateManipulator.DrawXCards
-            GameState.GetHandModelById(player).AddCards(_deckManager.DrawX(player, x))
-        End Sub
-
-        Public Function DrawCardsToHandsize(id As Guid, currentNumberOfCardsInHand As Integer) As List(Of CardInstance)
-            Return _deckManager.DrawX(id, Constants.HandSize - currentNumberOfCardsInHand)
-        End Function
-
-        Private Sub EachLocalPlayerDiscardsAndDraws()
-            For Each pl As Player In Players.GetPlayersByType(Player.PlayerType.Local)
-                GameState.GetHandModelById(pl.Id).AddCards(DrawCardsToHandsize(pl.Id, GameState.GetHandModelById(pl.Id).NumberOfCardsInHand()))
-            Next
         End Sub
 
         Public Sub PassTurn() Implements IGameEngineGameFlowController.PassTurn
@@ -216,13 +186,13 @@ Namespace GameEngine
             SetInfoboxToDefault()
         End Sub
 
-#Region "util"
+        Private Sub HaveOpponentPlayEffect(plrId As Guid, effectId As Guid, effect As IEffect) Implements IGameEngineServerCommunication.HaveOpponentPlayEffect
+            _serverCommObject.PlayEffectForOpponent(plrId, effectId, effect)
+        End Sub
 
-        Public Function GetOwnerOfSmallCard(sc As SmallCard) As Guid
-            Return GameState.ThisCardInstanceBelongsToCardCollection(sc.Card).Owner
-        End Function
+        Private Sub PlayEffect(plrId As Guid, effectId As Guid, effect As IEffect)
 
-#End Region
+        End Sub
 
 #End Region
 
@@ -236,10 +206,6 @@ Namespace GameEngine
 
         Public Function MyOpponent(id As Guid) As Player
             Return Players.GetOpponent(id)
-        End Function
-
-        Public Function GetPlayerById(id As Guid) As Player
-            Return Players.GetPlayer(id)
         End Function
 
         Private Sub RollInitiative()
@@ -315,7 +281,6 @@ Namespace GameEngine
             RaiseEvent SystemMessage(txt)
         End Sub
 
-
 #End Region
 
 #Region "properties"
@@ -379,6 +344,15 @@ Namespace GameEngine
             End Get
         End Property
 
+        Public ReadOnly Property ServerCommunication() As ServerCommunication
+            Get
+                If _sc Is Nothing Then
+                    _sc = New ServerCommunication(Me)
+                End If
+                Return _sc
+            End Get
+        End Property
+
 #End Region
 
 #Region "eventhandlers"
@@ -391,6 +365,10 @@ Namespace GameEngine
             SetActivePlayer(id)
         End Sub
 
+        Private Sub _serverCommObject_PlayEffect(plrId As Guid, effectId As Guid, effect As Object) Handles _serverCommObject.PlayEffect
+            PlayEffect(plrId, effectId, DirectCast(effect, IEffect))
+        End Sub
+
         Private Sub _gameState_CardCollectionChanged(cc As CardCollection) Handles _gameState.CardCollectionChanged
             OnCardCollectionChanged(cc)
         End Sub
@@ -398,4 +376,5 @@ Namespace GameEngine
 #End Region
 
     End Class
+
 End Namespace

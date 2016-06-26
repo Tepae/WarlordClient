@@ -5,7 +5,7 @@ Namespace GameEngine
 
     Public Class DeadCharacterChecker
 
-        Public Function GetDeadCharacters(ge As GameEngineGameEngine, players As PlayerList) As List(Of CardInstance)
+        Public Function GetDeadCharacters(ge As GameEngine, players As PlayerList) As List(Of CardInstance)
             Dim ret As New List(Of CardInstance)
             For Each plr As Player In players.Players
                 Dim cc As CardCollection = ge.GameState.GetCollectionById(plr.Id)

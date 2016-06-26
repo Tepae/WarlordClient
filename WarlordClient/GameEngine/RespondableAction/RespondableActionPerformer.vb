@@ -1,8 +1,6 @@
-﻿Imports WarlordClient.GameEngine.EventNotifier
+﻿Namespace GameEngine.RespondableAction
 
-Namespace GameEngine.Order
-
-    Public Class OrderPerformer
+    Public Class RespondableActionPerformer
 
         Private ReadOnly _owner As Guid
         Private ReadOnly _gs As GameState
@@ -16,40 +14,23 @@ Namespace GameEngine.Order
             _gs = gs
         End Sub
 
-        Public Sub Perform(o As IOrder, passTurn As Boolean, exitPoint As Action)
+        Public Sub Perform(o As IRespondableAction, passTurn As Boolean, exitPoint As Action)
             _id = o.Id
             _passTurn = passTurn
             _exitPoint = exitPoint
+            o.MakeChoices()
             AllowBeforeResponses()
             o.Perform(_owner, _gs)
             AllowAfterResponses()
             CleanInterface()
-            [End]()
+            Pass()
         End Sub
 
         Private Sub AllowBeforeResponses()
-            BeforeAllowLocalPlayerToRespond()
-            BeforeAllowOpponentToRespond()
+
         End Sub
 
         Private Sub AllowAfterResponses()
-            AfterAllowLocalPlayerToRespond()
-            AfterAllowOpponentToRespond()
-        End Sub
-
-        Private Sub BeforeAllowLocalPlayerToRespond()
-
-        End Sub
-
-        Private Sub BeforeAllowOpponentToRespond()
-
-        End Sub
-
-        Private Sub AfterAllowLocalPlayerToRespond()
-
-        End Sub
-
-        Private Sub AfterAllowOpponentToRespond()
 
         End Sub
 
@@ -57,8 +38,8 @@ Namespace GameEngine.Order
             GameEngineObjects.UserInterfaceManipulator.CleanContextSensitiveVisuals()
         End Sub
 
-        Private Sub [End]()
-            If _gfc.StateBasedEffectsAllowForTurnToBePassed(AddressOf [End]) Then
+        Private Sub Pass()
+            If _gfc.StateBasedEffectsAllowForTurnToBePassed(AddressOf Pass) Then
                 If _passTurn Then
                     _gfc.PassTurn()
                 ElseIf _exitPoint IsNot Nothing Then
@@ -68,7 +49,5 @@ Namespace GameEngine.Order
         End Sub
 
     End Class
-
-
 
 End Namespace

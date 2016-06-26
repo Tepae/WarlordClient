@@ -10,7 +10,7 @@
         End Sub
 
         Public Function Evaluate(args As FilterArguments) As Boolean Implements IFilter.Evaluate
-            Return args.Source.Card.Classes.Contains(_c)
+            Return args.Source.Card.Classes.Contains(_c) OrElse _c = Cards.Card.Card.ClassEnum.Any
         End Function
 
     End Class

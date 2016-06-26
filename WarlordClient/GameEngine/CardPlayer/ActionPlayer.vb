@@ -1,4 +1,5 @@
-﻿Imports WarlordClient.GameEngine.Cards.Card
+﻿
+Imports WarlordClient.GameEngine.RespondableAction
 
 Namespace GameEngine.CardPlayer
 
@@ -14,7 +15,8 @@ Namespace GameEngine.CardPlayer
         End Sub
 
         Public Sub PlayCard() Implements ICardPlayer.PlayCard
-            DirectCast(_sc.Card.Card, WlAction).Perform(_gs.GetOwnerOfCardInstance(_sc.Card), _gs)
+            Dim op As New RespondableActionPerformer(_gs.GetOwnerOfCardInstance(_sc.Card), _gs)
+            op.Perform(New PlayAction(Guid.NewGuid(), _sc), True, Nothing)
         End Sub
 
     End Class

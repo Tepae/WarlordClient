@@ -5,7 +5,7 @@ Namespace GameEngine.ClickFilter
 
     Public Class ClickFilterManager
 
-        Private _ge As GameEngineGameEngine
+        Private _ge As GameEngine
         Private ReadOnly _filters As New Stack(Of ClickFilter)
 
         Public Delegate Sub Callback(sc As SmallCard, owner As Guid, btn As MouseButtons)
@@ -14,7 +14,7 @@ Namespace GameEngine.ClickFilter
         Public Event RightClickInHand(sender As Object, e As HandClickEventArgs)
         Public Event RightClickInPlay(sender As Object, e As CardGridClickEventArgs)
 
-        Public Sub New(ge As GameEngineGameEngine)
+        Public Sub New(ge As GameEngine)
             _ge = ge
         End Sub
 
